@@ -14,7 +14,7 @@ public:
 	{
 		SaveGameFeatureRuntimeInfo.FromSaveType(NumberSave);
 	}
-	FSaveLoadSystemSaveArea(FString InFolderNameText, TEnumAsByte<ESaveGameType_Candidate> InSaveGameType, bool InIsSavingHeaderObj = true)
+	FSaveLoadSystemSaveArea(FString InFolderNameText, TEnumAsByte<ESaveGameType> InSaveGameType, bool InIsSavingHeaderObj = true)
 	{
 		SaveGameFeatureRuntimeInfo.FromSaveType(InSaveGameType);
 		SaveLocationFormatStr = InFolderNameText;
@@ -23,7 +23,7 @@ public:
 	}
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, SkipSerialization, Config, Category="Save Area Info", meta=(ToolTip="存档文件的文件名前缀。"))
-	TEnumAsByte<ESaveGameType_Candidate> SaveGameType = NumberSave;
+	TEnumAsByte<ESaveGameType> SaveGameType = NumberSave;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, SkipSerialization, Config, Category="Save Area Info", meta=(ToolTip="本存储区域的根路径的字符串：从SaveGames文件夹开始计算。可以使用{UserID}和{UserName}宏"))
 	FString SaveLocationFormatStr = "{UserID}/";

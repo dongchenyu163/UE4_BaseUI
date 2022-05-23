@@ -48,7 +48,7 @@ public:
 		return Ar;
 	}
 
-	ESaveGameType_Candidate ToSaveType()
+	ESaveGameType ToSaveType()
 	{
 		const uint8 PackedValue = *((uint8*)this);
 		if (bUseOfficial)
@@ -67,10 +67,10 @@ public:
 		{
 			return CustomNameSave;
 		}
-		return InvalidType_Candidate;
+		return InvalidType_ESaveGameType;
 	}
 
-	void FromSaveType(ESaveGameType_Candidate InSaveType)
+	void FromSaveType(ESaveGameType InSaveType)
 	{
 		uint8* PackedValuePtr = (uint8*)this;
 		switch (InSaveType)

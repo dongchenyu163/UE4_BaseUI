@@ -25,7 +25,7 @@ struct BASEUI_MODULE_API FDongSaveSystemSavingParam
 	UPROPERTY(meta=(ToolTip=""))
 	FString SaveAdditionalPath;
 
-	TEnumAsByte<ESaveGameType_Candidate> SaveType = NumberSave;
+	TEnumAsByte<ESaveGameType> SaveType = NumberSave;
 
 	void AsNumberSave(FName InSaveAreaID, USaveGame* InMainSaveObj, USaveGameObjectHeaderBase* InSaveObjHeader, int32 InSlotNum) 
 	{
