@@ -52,11 +52,6 @@ public:
 	void SetSaveSystemLoadingScreenWidgetClass(TSubclassOf<UUSaveSystemLoadingScreenBase> InLoadingScreenWidgetClass);
 	virtual void SetSaveSystemLoadingScreenWidgetClass_CPP(TSubclassOf<UUSaveSystemLoadingScreenBase> InLoadingScreenWidgetClass) = 0;
 
-	// UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Save Load System|UI Functions|Save Game")
-	// void UpdateHeader(ESaveGameType SaveType, int32 InSlotNum, USaveGameObjectHeaderBase* InNewHeader);
-	// virtual void UpdateHeader_CPP(ESaveGameType SaveType, int32 InSlotNum, USaveGameObjectHeaderBase* InNewHeader) = 0;
-
-	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Save Load System|UI Functions|Save Game")
 	void SaveGame(int32 InSlotNum);
 	virtual void SaveGame_CPP(int32 InSlotNum) = 0;

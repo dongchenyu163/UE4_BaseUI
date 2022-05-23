@@ -100,27 +100,6 @@ public:
 	static UClass* GetHeaderClass() { return Get()->SaveHeaderClass; }
 	
 protected:
-
-	/**
-	 * @brief 由外部的FMultiUserSaveSystem使用
-	 * @param UserID 
-	 * @param InSaveType 
-	 * @return 
-	 */
-	virtual FString GetSavePath_Internal(ESaveGameType InSaveType)
-	{
-		const FUserInfo* UserInfo = GetCurrentUserInfo();
-		const int32 UserID = UserInfo->BaseInfo.UserID;
-		
-		const TMap<FName, FString>* FoundUserSavePathMap = Map_UserID_To_SavePathMap.Find(UserID);
-		if (!FoundUserSavePathMap)
-		{
-			RefreshUserSavePathCache(UserInfo);
-			FoundUserSavePathMap = &Map_UserID_To_SavePathMap[UserID];
-		}
-		return (*FoundUserSavePathMap)[FName()];
-	}
-
 	virtual FString GetSavePath_Internal(FDongSaveSystemSavingParam& InParam)
 	{
 		const FUserInfo* UserInfo = GetCurrentUserInfo();
@@ -556,10 +535,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Config, Category="Basic Config", meta=(ToolTip="保存运行时的数据（比如：滚动缓冲区的头指针）的文件名以及路径。"))
 	FString RuntimeDataSaveFullPath = "{UserID}/Options.sav";
 	FString Old_RuntimeDataSaveFullPath = "{UserID}/Options.sav";
-
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Config, AdvancedDisplay, Category="Save Area", meta=(EditCondition="bInitialAutoCreateUser"))
-	TMap<TEnumAsByte<ESaveGameType>, FSaveLoadSystemSaveArea> Map_SaveType_To_SaveAreaInfo;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Config, Category="Save Area", meta=(ToolTip))
 	TMap<FName, FSaveLoadSystemSaveArea> Map_SaveAreaID_To_SaveAreaInfo;

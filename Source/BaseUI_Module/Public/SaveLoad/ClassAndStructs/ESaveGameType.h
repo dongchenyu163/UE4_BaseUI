@@ -3,20 +3,6 @@
 #include "CoreMinimal.h"
 
 
-UENUM(BlueprintType)
-enum ESaveGameType
-{
-	NormalSave,
-	AutoSave,
-	QuickSave,
-	CustomLevelSave UMETA(Tooltip=""),
-	CustomSave UMETA(Tooltip=""),
-	EndEnum UMETA(Hidden),
-	InvalidType UMETA(Hidden)
-};
-ENUM_RANGE_BY_COUNT(ESaveGameType, ESaveGameType::EndEnum);  // 可以迭代Enum的值
-
-
 // TODO：再次优化存档方式。
 UENUM(BlueprintType)
 enum ESaveGameType_Candidate
