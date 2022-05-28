@@ -48,7 +48,15 @@ void UMainMenuGameInstanceBase::Init()
 
 UFunctionHandlerBase* UMainMenuGameInstanceBase::FindHandler_ByName_CPP(FName InHandlerName)
 {
-	return nullptr;
+	auto FindResutlt = Map_HandlerName_To_HandlerObj.Find(InHandlerName);
+	if (FindResutlt)
+	{
+		return *FindResutlt;
+	}
+	else
+	{
+		return nullptr;
+	}	
 }
 
 UDataTable* UMainMenuGameInstanceBase::GetMapInfoDataTable_Implementation()
