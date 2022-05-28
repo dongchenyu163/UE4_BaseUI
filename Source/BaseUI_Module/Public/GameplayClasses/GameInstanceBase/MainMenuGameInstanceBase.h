@@ -71,6 +71,9 @@ public:
 
 	virtual FMapUIInfo* FindMapUIInfo_ByUWorld(UWorld* InWorldPtr);
 protected:
+
+	UPROPERTY()
+	TMap<FName, UFunctionHandlerBase*> Map_HandlerName_To_HandlerObj;
 	UPROPERTY()  // 只是为了保持该变量不被回收
 	USinglePlayerMenuBaseHandler* SinglePlayerFunctionsHandlerObj = nullptr;
 	UPROPERTY()
