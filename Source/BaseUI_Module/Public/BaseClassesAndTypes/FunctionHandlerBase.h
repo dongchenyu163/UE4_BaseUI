@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayClasses/GameInstanceBase/Interfaces/I_GI_MenuFramework.h"
+// #include "GameplayClasses/GameInstanceBase/Interfaces/I_GI_MenuFramework.h"
 #include "UObject/Object.h"
 #include "FunctionHandlerBase.generated.h"
 
@@ -17,7 +17,7 @@ enum EFunctionHandlerType
 	WorldHandler,
 	LowLevelHandler
 };
-
+class II_GI_MenuFramework;
 /**
  * 
  */
