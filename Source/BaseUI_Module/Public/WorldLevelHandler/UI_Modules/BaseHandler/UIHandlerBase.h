@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameplayClasses/GameInstanceBase/Interfaces/I_GI_MenuFramework.h"
 #include "UObject/Object.h"
+#include "WorldLevelHandler/WorldLevelHandlerBase/WorldLevelHandlerBase.h"
 #include "UIHandlerBase.generated.h"
 
 /**
  * 
  */
 UCLASS(BlueprintType, Blueprintable)
-class BASEUI_MODULE_API UUIHandlerBase : public UObject
+class BASEUI_MODULE_API UUIHandlerBase : public UWorldLevelHandlerBase
 {
 	GENERATED_BODY()
 public:

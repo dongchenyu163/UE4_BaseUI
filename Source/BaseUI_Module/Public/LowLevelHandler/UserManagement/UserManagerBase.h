@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UserInfoSaveGameObj.h"
 #include "UserManagementGlobals.h"
+#include "LowLevelHandler/LowLevelHandlerBase/LowLevelFunctionHandlerBase.h"
 #include "Interfaces/I_UserManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/Object.h"
@@ -15,12 +16,23 @@
  * 
  */
 UCLASS(Blueprintable, BlueprintType)
-class BASEUI_MODULE_API UUserManagerBase : public UObject, public II_UserManager
+class BASEUI_MODULE_API UUserManagerBase : public ULowLevelFunctionHandlerBase, public II_UserManager
 {
 	GENERATED_BODY()
 
 protected:
 	virtual ~UUserManagerBase() override {}
+
+#pragma region 从ULowLevelFunctionHandlerBase继承
+public:
+	virtual FName GetHandlerFName() override { return FName("UserManager"); }
+	virtual TArray<FName> GetDependenceHandlerFNameList() override { return TArray<FName>(); }
+	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr) override;
+protected:
+	virtual void OnStart() override {}
+#pragma endregion 从ULowLevelFunctionHandlerBase继承
+	
 public:
 	virtual ECreateUserFailed CreateNewUser_ByUserInfo_CPP(FUserInfo& InNewUserInfo) override;
 	virtual ECreateUserFailed CreateNewUser_ByName_CPP(FName InUserName, const FText& InDisplayName, UTexture2D* InUserAvatar) override;

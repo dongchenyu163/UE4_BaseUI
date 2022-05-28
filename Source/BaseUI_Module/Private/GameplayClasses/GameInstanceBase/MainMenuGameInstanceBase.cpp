@@ -46,6 +46,11 @@ void UMainMenuGameInstanceBase::Init()
 
 }
 
+UFunctionHandlerBase* UMainMenuGameInstanceBase::FindHandler_ByName_CPP(FName InHandlerName)
+{
+	return nullptr;
+}
+
 UDataTable* UMainMenuGameInstanceBase::GetMapInfoDataTable_Implementation()
 {
 	return GetMapInfoDataTable_CPP();

@@ -24,8 +24,9 @@ public:
 	virtual void Init() override;
 protected:
 	virtual ~UMainMenuGameInstanceBase() override {}
-	
 public:
+	virtual UFunctionHandlerBase* FindHandler_ByName_CPP(FName InHandlerName) override;
+	
 	virtual TScriptInterface<II_UI_SinglePlayerFunctions> GetSinglePlayerMenuBaseHandler_Implementation() override { return SinglePlayerFunctionsHandlerObj; }
 	virtual TScriptInterface<II_UI_MapSelectable> GetMapSelector_Implementation() override { return MapSelectableHandlerObj; }
 	virtual TScriptInterface<II_UI_ResumeMenu> GetResumeMenuBaseHandler_Implementation() override { return ResumeMenuHandlerObj; }

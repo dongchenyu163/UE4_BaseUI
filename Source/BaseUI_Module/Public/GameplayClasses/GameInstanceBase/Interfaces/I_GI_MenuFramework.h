@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseClassesAndTypes/FunctionHandlerBase.h"
 #include "WorldLevelHandler/UI_Modules/UI_MapSelection/Interfaces/I_UI_MapSelectable.h"
 #include "WorldLevelHandler/UI_Modules/UI_NextLevel/Interfaces/I_UI_NextLevel.h"
 #include "WorldLevelHandler/UI_Modules/UI_ResumeMenu/Interfaces/I_UI_ResumeMenu.h"
@@ -101,6 +102,10 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|Handler Getter")
 	TScriptInterface<II_UserManager> GetUserManager();
 	virtual II_UserManager* GetUserManager_CPP() = 0;
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="FunctionHandler", meta=(DisplayName="", Tooltip=""))
+	UFunctionHandlerBase* FindHandler_ByName(FName InHandlerName);
+	virtual UFunctionHandlerBase* FindHandler_ByName_CPP(FName InHandlerName) = 0;
 
 #pragma endregion BaseHandler对象获取函数区域
 };

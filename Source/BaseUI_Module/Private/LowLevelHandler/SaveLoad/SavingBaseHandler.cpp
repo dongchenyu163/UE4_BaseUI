@@ -9,6 +9,28 @@
 #include "LowLevelHandler/SaveLoad/SaveLoadSystemGlobals.h"
 #include "LowLevelHandler/SaveLoad/MultiUserSaveSystem/DongSaveSystemStatic.h"
 
+void USavingBaseHandler::InitHandler(II_GI_MenuFramework* InGameInstancePtr)
+{
+	Super::InitHandler(InGameInstancePtr);
+	// InGameInstancePtr->FindHandler
+// 	UserManagerObj = InUserManagerObj;
+//
+// 	if (IsValid(InUserManagerObj))
+// 	{
+// 		UserManagerPtr = static_cast<II_UserManager*>(UserManagerObj.GetInterface());
+// 		USaveLoadSystemConfig::SetUserManagerInstance(UserManagerPtr);
+// 	}
+// 	else
+// 	{
+// 		UE_LOG(LogTemp, Error, TEXT("Function:[%s] InUserManagerObj is not a valid [II_UserManager] Interface UObject"), ANSI_TO_TCHAR(__FUNCTION__));
+// #if WITH_EDITOR
+// 		ensure(false);
+// #else
+// 		check(false);
+// #endif
+// 	}
+}
+
 void USavingBaseHandler::SaveGameToArea_CPP(FDongSaveSystemSavingParam& InParams)
 {
 	if (UDongSaveSystemStatic_Simple::DoesSaveGameExist(InParams))

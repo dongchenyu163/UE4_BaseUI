@@ -6,6 +6,7 @@
 #include "SaveLoadSystemGlobals.h"
 #include "Interfaces/I_Save.h"
 #include "Kismet/GameplayStatics.h"
+#include "LowLevelHandler/LowLevelHandlerBase/LowLevelFunctionHandlerBase.h"
 #include "MultiUserSaveSystem/DongSaveSystemStatic.h"
 #include "UObject/Object.h"
 #include "LowLevelHandler/UserManagement/Interfaces/I_UserManager.h"
@@ -16,13 +17,24 @@
  * 
  */
 UCLASS(Blueprintable, BlueprintType, meta=(ToolTip="处理【保存和加载USaveGame】的类，本基类实现：【无用户】的游戏的【普通保存】【自动保存】【快速保存】三项功能"))
-class BASEUI_MODULE_API USavingBaseHandler : public UObject, public II_Save
+class BASEUI_MODULE_API USavingBaseHandler : public ULowLevelFunctionHandlerBase, public II_Save
 {
 	GENERATED_BODY()
 
 
 protected:
 	virtual ~USavingBaseHandler() override {}
+
+#pragma region 从ULowLevelFunctionHandlerBase继承
+public:
+	virtual FName GetHandlerFName() override { return FName("LowLevelSaveHandler"); }
+	virtual TArray<FName> GetDependenceHandlerFNameList() override { return { FName("UserManager") }; }
+	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr) override;
+protected:
+	virtual void OnStart() override {}
+#pragma endregion 从ULowLevelFunctionHandlerBase继承
+	
 public:
 	// 核心函数：【保存】【读取】【检测存档存在性】【读取存档文件头】
 	virtual void SaveGameToArea_Implementation(FDongSaveSystemSavingParam& InParams) override { SaveGameToArea_CPP(InParams); }

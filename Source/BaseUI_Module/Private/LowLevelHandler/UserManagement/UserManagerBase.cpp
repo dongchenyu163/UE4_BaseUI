@@ -6,6 +6,15 @@
 #include "Kismet/GameplayStatics.h"
 #include "LowLevelHandler/UserManagement/UserManagementGlobals.h"
 
+void UUserManagerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr)
+{
+	Super::InitHandler(InGameInstancePtr);
+	LoadUserInfo();
+	bIsInitial = true;
+
+	Init_User();
+}
+
 ECreateUserFailed UUserManagerBase::CreateNewUser_ByUserInfo_CPP(FUserInfo& InNewUserInfo)
 {
 	TMap<int64, FUserInfo>& UserInfoMap = OperatingSaveGameObj->Map_UserID_To_UserInfo;
