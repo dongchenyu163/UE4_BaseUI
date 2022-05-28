@@ -26,6 +26,7 @@ class BASEUI_MODULE_API UFunctionHandlerBase : public UObject
 {
 	GENERATED_BODY()
 
+public:
 	/**
 	 * @brief 让GameInstance可以拿到该Handler的名称，用于创建【Handler名称】->【Handler对象】
 	 *		的字典；也方便GameInstance暴露接口函数，方便在任何时候任何地点（蓝图或者其他Handler中）
@@ -47,12 +48,13 @@ class BASEUI_MODULE_API UFunctionHandlerBase : public UObject
 
 	virtual EFunctionHandlerType GetHandlerType() { return HandlerType; }
 
+protected:
 	/**
-	 * @brief 转发GameInstance的同名函数给子类。
+	 * @brief 游戏本身开始的时候被调用；转发GameInstance的同名函数给子类。
 	 */
 	virtual void OnStart() {}
 	/**
-	 * @brief 转发GameInstance的同名函数给子类。
+	 * @brief 有程序调用了【UGameplayStatics::OpenLevel】函数进行世界的切换，且切换已经完成的时候被调用；转发GameInstance的同名函数给子类。
 	 * @param OldWorld 之前的世界
 	 * @param NewWorld 新的世界
 	 */
