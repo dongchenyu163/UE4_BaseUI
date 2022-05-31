@@ -143,6 +143,18 @@ void UMainMenuGameInstanceBase::SetPlayingMapUIInfo_Implementation(FMapUIInfo In
 	PlayingMapInfo = InNewMapInfo;
 }
 
+FMapUIInfo* UMainMenuGameInstanceBase::FindMapUIInfo_ByUWorld(UWorld* InWorldPtr)
+{
+	// MapInfoDataTable->GetAllRows()
+	auto name = FName(FPaths::GetBaseFilename(InWorldPtr->GetPackage()->FileName.ToString()));
+	auto res = MapInfoDataTable->FindRow<FMapUIInfo>(name, TEXT("FindCurrentWorld"));
+	return (res);
+}
+
+#pragma endregion Get & Set PlayingMapUIInfo
+
+
+
 void UMainMenuGameInstanceBase::ResetWidgetInfo_CPP()
 {
 	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
@@ -170,27 +182,27 @@ void UMainMenuGameInstanceBase::OnStart()
 	SavableHandlerObj->Init(SavingBaseHandler, UserManager);
 	OnAnyWorldBeginPlay.AddDynamic(SavableHandlerObj, &USaveBaseHandler::Handle_OnAnyWorldChanged);
 
-    // Reset runtime info for UDA_WidgetInfo Obj.
-    ResetWidgetInfo_CPP();
+	// Reset runtime info for UDA_WidgetInfo Obj.
+	ResetWidgetInfo_CPP();
 
-    if (IsValid(MapInfoDataTable))
-    {
-    	TArray<FName> MapInfoNameList = MapInfoDataTable->GetRowNames();
-    	for (const FName RowName : MapInfoNameList)
-    	{
-    		const FMapUIInfo* InfoPtr = MapInfoDataTable->FindRow<FMapUIInfo>(RowName, "Init");
-    		FMapUIRuntimeInfo NewRuntimeInfo;
-    		NewRuntimeInfo.MapIdentifier = InfoPtr->MapIdentifier;
-    		NewRuntimeInfo.bIsPlayable = InfoPtr->bInitialPlayable;
-    		Map_MapName_To_MapRuntimeInfo.Add(InfoPtr->MapIdentifier, NewRuntimeInfo);
-    	}
+	if (IsValid(MapInfoDataTable))
+	{
+		TArray<FName> MapInfoNameList = MapInfoDataTable->GetRowNames();
+		for (const FName RowName : MapInfoNameList)
+		{
+			const FMapUIInfo* InfoPtr = MapInfoDataTable->FindRow<FMapUIInfo>(RowName, "Init");
+			FMapUIRuntimeInfo NewRuntimeInfo;
+			NewRuntimeInfo.MapIdentifier = InfoPtr->MapIdentifier;
+			NewRuntimeInfo.bIsPlayable = InfoPtr->bInitialPlayable;
+			Map_MapName_To_MapRuntimeInfo.Add(InfoPtr->MapIdentifier, NewRuntimeInfo);
+		}
 
-    	auto World = GetWorld();
-        if (World)
-        {
-    		SetPlayingMapUIInfo_CPP(FindMapUIInfo_ByUWorld(World));
-        }
-    }
+		auto World = GetWorld();
+		if (World)
+		{
+			SetPlayingMapUIInfo_CPP(FindMapUIInfo_ByUWorld(World));
+		}
+	}
 }
 
 void UMainMenuGameInstanceBase::OnFirstWorldChanged(UWorld* NewWorld)
@@ -201,39 +213,29 @@ void UMainMenuGameInstanceBase::OnFirstWorldChanged(UWorld* NewWorld)
 void UMainMenuGameInstanceBase::OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld)
 {
 	if (NewWorld)  // NewWorld 他妈的居然会为NULL。。。
-	{
+		{
 		if (!NewWorld->OnWorldBeginPlay.IsBoundToObject(this))
 		{
 			NewWorld->OnWorldBeginPlay.AddLambda(
 			   [this, NewWorld]()
 			   {
-		   			if (bIsInit)
-            		{
-            			bIsInit = false;
-            			OnFirstWorldChanged(NewWorld);
-            		}
-				   if (OnAnyWorldBeginPlay.IsBound())
-				   {
-					   OnAnyWorldBeginPlay.Broadcast();
-				   }
-			   }
-			   );
+					   if (bIsInit)
+					   {
+						   bIsInit = false;
+						   OnFirstWorldChanged(NewWorld);
+					   }
+					  if (OnAnyWorldBeginPlay.IsBound())
+					  {
+						  OnAnyWorldBeginPlay.Broadcast();
+					  }
+				  }
+				  );
 		}
-	}
+		}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Function:[%s] [NewWorld] is nullptr 呵呵"), ANSI_TO_TCHAR(__FUNCTION__));
 	}
 
 }
-
-FMapUIInfo* UMainMenuGameInstanceBase::FindMapUIInfo_ByUWorld(UWorld* InWorldPtr)
-{
-	// MapInfoDataTable->GetAllRows()
-	auto name = FName(FPaths::GetBaseFilename(InWorldPtr->GetPackage()->FileName.ToString()));
-	auto res = MapInfoDataTable->FindRow<FMapUIInfo>(name, TEXT("FindCurrentWorld"));
-	return (res);
-}
-
-#pragma endregion Get & Set PlayingMapUIInfo
 
