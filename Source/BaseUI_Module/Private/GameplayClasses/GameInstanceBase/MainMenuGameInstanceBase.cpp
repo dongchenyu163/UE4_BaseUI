@@ -322,3 +322,81 @@ void UMainMenuGameInstanceBase::OnWorldChanged(UWorld* OldWorld, UWorld* NewWorl
 
 }
 
+
+bool VerifyHandlerCreationResult(TMap<FName, UFunctionHandlerBase*> InHandlerDict, TSet<FName> InShouldCreateNameCollection)
+{
+
+	// Check Object is valid.
+	for (auto CreatedPair : InHandlerDict)
+	{
+		if (!IsValid(CreatedPair.Value))
+		{
+			UE_LOG(LogTemp, Error, TEXT("Function:[%s] Object name [%s] create failed."), ANSI_TO_TCHAR(__FUNCTION__), *FName(CreatedPair.Key).ToString());
+			return false;
+		}
+	}
+
+	// Check the created object name is exactly matching the InShouldCreateNameList.
+	TArray<FName> CreatedHandlerNameList;
+	InHandlerDict.GetKeys(CreatedHandlerNameList);
+	TSet<FName> CreatedHandlerNameCollection(CreatedHandlerNameList);
+
+	TSet<FName> Diff = InShouldCreateNameCollection.Difference(CreatedHandlerNameCollection);
+	if (Diff.Num() != 0)
+	{
+		for (FName DiffElement : Diff)
+		{
+			if (CreatedHandlerNameCollection.Contains(DiffElement))
+			{
+				UE_LOG(LogTemp, Error, TEXT("Function:[%s] Object name [%s] should NOT be create."), ANSI_TO_TCHAR(__FUNCTION__), *DiffElement.ToString());
+			}
+			else if (InShouldCreateNameCollection.Contains(DiffElement))
+			{
+				UE_LOG(LogTemp, Error, TEXT("Function:[%s] Object name [%s] NOT create!!!"), ANSI_TO_TCHAR(__FUNCTION__), *DiffElement.ToString());
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Function:[%s] Object name [%s] is not expected!!!"), ANSI_TO_TCHAR(__FUNCTION__), *DiffElement.ToString());
+			}
+		}
+		return false;
+	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMainMenuGameInstanceBase_CreateHandlerTest, "BaseUI_Module.GameInstance.CreateHandlerTest", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::EngineFilter)
+bool FMainMenuGameInstanceBase_CreateHandlerTest::RunTest(const FString& Parameters)
+{
+	TMap<FName, FFunctionHandlerInfo> HandlerClassDict;
+	TMap<FName, UFunctionHandlerBase*> CreateResult;
+	// Normal case.
+	HandlerClassDict.Add(FName("MapSelector"), FFunctionHandlerInfo(UMapSelectionBaseHandler::StaticClass()));
+	HandlerClassDict.Add(FName("NextLevelHandler"), FFunctionHandlerInfo(UNextLevelBaseHandler::StaticClass()));
+	HandlerClassDict.Add(FName("ResumeMenuHandle"), FFunctionHandlerInfo(UResumeMenuBaseHandler::StaticClass()));
+	HandlerClassDict.Add(FName("SaveHandler"), FFunctionHandlerInfo(USaveBaseHandler::StaticClass(), { FName("LowLevelSaveHandler") }));
+	HandlerClassDict.Add(FName("SinglePlayerMenuHandle"), FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass(), { FName("MapSelector") }));
+	HandlerClassDict.Add(FName("LowLevelSaveHandler"), FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass(), { FName("UserManager") }));
+	HandlerClassDict.Add(FName("UserManager"), FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass()));
+
+	UMainMenuGameInstanceBase::CreateHandlers(HandlerClassDict, CreateResult);
+	TSet<FName> ShouldBeCreateNameList = {
+		"MapSelector",
+		"NextLevelHandler",
+		"ResumeMenuHandle",
+		"SaveHandler",
+		"SinglePlayerMenuHandle",
+		"LowLevelSaveHandler",
+		"UserManager"
+	};
+	const bool bNormalTestResult = VerifyHandlerCreationResult(CreateResult, ShouldBeCreateNameList);
+	if (!bNormalTestResult)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Function:[%s] [BaseUI_Module.GameInstance.CreateHandlerTest] Normal test failed"), ANSI_TO_TCHAR(__FUNCTION__));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("[BaseUI_Module.GameInstance.CreateHandlerTest] Normal test PASS"));
+	}
+	
+	return true;
+}
