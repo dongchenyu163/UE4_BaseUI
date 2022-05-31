@@ -3,14 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ClassesAndStructs/FunctionHandlerInfo.h"
 #include "WorldLevelHandler/UI_Modules/BaseHandler/UIHandlerBase.h"
 #include "UObject/Object.h"
+#include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_NextLevel/NextLevelBaseHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_ResumeMenu/ResumeMenuBaseHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_Save/SaveBaseHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_SinglePlayerMenu/SinglePlayerMenuBaseHandler.h"
 #include "MainMenuGameInstanceConfig.generated.h"
 
 /**
  * 
  */
-UCLASS()
+UCLASS(Config="MainMenuGameInstanceConfig")
 class BASEUI_MODULE_API UMainMenuGameInstanceConfig : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -25,15 +31,40 @@ public:
 	virtual FText GetSectionText() const override { return NSLOCTEXT("MainMenuGameInstanceConfig", "SectionText", "Game Instance Config"); }
 	// Setting的左侧栏的悬停提示文字
 	virtual FText GetSectionDescription() const override { return NSLOCTEXT("MainMenuGameInstanceConfig", "SectionDescriptionText", "配置GameInstance"); }
-	
+
+	UMainMenuGameInstanceConfig()
+	{
+		// UI Handlers
+		HandlerClassDict.Add(FName("MapSelector"), FFunctionHandlerInfo(UMapSelectionBaseHandler::StaticClass()));
+		HandlerClassDict.Add(FName("NextLevelHandler"), FFunctionHandlerInfo(UNextLevelBaseHandler::StaticClass()));
+		HandlerClassDict.Add(FName("ResumeMenuHandle"), FFunctionHandlerInfo(UResumeMenuBaseHandler::StaticClass()));
+		HandlerClassDict.Add(FName("SaveHandler"), FFunctionHandlerInfo(USaveBaseHandler::StaticClass(), { "LowLevelSaveHandler", "UserManager" }));
+		HandlerClassDict.Add(FName("SinglePlayerMenuHandle"), FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass(), { "MapSelector", "SaveHandler" }));
+
+		// Low level Handlers
+		HandlerClassDict.Add(FName("LowLevelSaveHandler"), FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass(), { "UserManager" }));
+		HandlerClassDict.Add(FName("UserManager"), FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass()));
+
+		ReloadConfig();
+	}
+	virtual void PostReloadConfig(FProperty* PropertyThatWasLoaded) override
+	{
+		TArray<FName> HandlerNameList;
+		HandlerClassDict.GetKeys(HandlerNameList);
+		UReflectionOperations::SetNewOptionsToEnum("EFunctionHandlerNames_BP", HandlerNameList);
+	}
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
 	{
-		
+		TArray<FName> HandlerNameList;
+		HandlerClassDict.GetKeys(HandlerNameList);
+		UReflectionOperations::SetNewOptionsToEnum("EFunctionHandlerNames_BP", HandlerNameList);
 	}
+
+	static UMainMenuGameInstanceConfig* Get() { return GetMutableDefault<UMainMenuGameInstanceConfig>(); }
 	
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="UI Handler Settings", meta=(DisplayName="UI handler use in game", ToolTip="程序中使用FName来查找并引用对应模块"))
-	TMap<FName, TSubclassOf<UUIHandlerBase>> UsingHandlerClassCollection;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="UI Handler Settings", meta=(DisplayName="Handler use in game", ToolTip="程序中使用FName来查找并引用对应模块"))
+	TMap<FName, FFunctionHandlerInfo> HandlerClassDict;
 
 	
 };

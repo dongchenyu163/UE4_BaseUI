@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ClassesAndStructs/FunctionHandlerInfo.h"
 #include "Interfaces/I_GI_MenuFramework.h"
 #include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
 #include "WorldLevelHandler/UI_Modules/UI_NextLevel/NextLevelBaseHandler.h"
@@ -71,6 +72,8 @@ public:
 	virtual FOnAnyWorldBeginPlay* GetOnAnyWorldBeginPlayDelegate_CPP() override { return &OnAnyWorldBeginPlay; }
 
 	virtual FMapUIInfo* FindMapUIInfo_ByUWorld(UWorld* InWorldPtr);
+	static void InitHandlers(II_GI_MenuFramework* InGameInstance, TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& InCreatedHandlerDict);
+	static void CreateHandlers(TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& InCreatedHandlerDict, UObject* ObjectOuter = GetTransientPackage());
 protected:
 
 	UPROPERTY()

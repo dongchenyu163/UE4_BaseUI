@@ -5,6 +5,7 @@
 
 #include "SaveGameSystem.h"
 #include "AssetRegistry/AssetRegistryModule.h"
+#include "GameplayClasses/GameInstanceBase/MainMenuGameInstanceConfig.h"
 #include "WorldLevelHandler/DA_WidgetInfo.h"
 #include "WorldLevelHandler/Examples/TestUI/TestUserGlobalSaveGameBaseObj.h"
 #include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
@@ -17,20 +18,20 @@ void UMainMenuGameInstanceBase::Init()
 {
 	Super::Init();
 
-	SinglePlayerFunctionsHandlerObj = NewObject<USinglePlayerMenuBaseHandler>(this, SinglePlayerMenuHandlerClass);
-	MapSelectableHandlerObj = NewObject<UMapSelectionBaseHandler>(this, MapSelectableHandlerClass);
-	ResumeMenuHandlerObj = NewObject<UResumeMenuBaseHandler>(this, ResumeMenuHandlerClass);
-	SavableHandlerObj = NewObject<USaveBaseHandler>(this, SavableHandlerClass);
-	NextLevelHandlerObj = NewObject<UNextLevelBaseHandler>(this, NextLevelHandlerClass);
-
-	SinglePlayerFunctionsHandlerObj->SetMapSelectableObj_CPP(MapSelectableHandlerObj);
-	ensure(MapInfoDataTable);
-	SinglePlayerFunctionsHandlerObj->SetMapInfoDataTable(MapInfoDataTable);
-	SinglePlayerFunctionsHandlerObj->SetSaveBaseHandler(SavableHandlerObj);
-
-	UserManager = NewObject<UUserManagerBase>(this, UserManagerClass);
-	SavingBaseHandler = NewObject<USavingBaseHandler>(this, SavingBaseHandlerClass);
-	UserManager->Init();
+	// SinglePlayerFunctionsHandlerObj = NewObject<USinglePlayerMenuBaseHandler>(this, SinglePlayerMenuHandlerClass);
+	// MapSelectableHandlerObj = NewObject<UMapSelectionBaseHandler>(this, MapSelectableHandlerClass);
+	// ResumeMenuHandlerObj = NewObject<UResumeMenuBaseHandler>(this, ResumeMenuHandlerClass);
+	// SavableHandlerObj = NewObject<USaveBaseHandler>(this, SavableHandlerClass);
+	// NextLevelHandlerObj = NewObject<UNextLevelBaseHandler>(this, NextLevelHandlerClass);
+	//
+	// SinglePlayerFunctionsHandlerObj->SetMapSelectableObj_CPP(MapSelectableHandlerObj);
+	// ensure(MapInfoDataTable);
+	// SinglePlayerFunctionsHandlerObj->SetMapInfoDataTable(MapInfoDataTable);
+	// SinglePlayerFunctionsHandlerObj->SetSaveBaseHandler(SavableHandlerObj);
+	//
+	// UserManager = NewObject<UUserManagerBase>(this, UserManagerClass);
+	// SavingBaseHandler = NewObject<USavingBaseHandler>(this, SavingBaseHandlerClass);
+	// UserManager->Init();
 
 	// auto UserList = UserManager->GetAllUserInfo_CPP();
 	// FUserInfo UserInfo;
@@ -41,9 +42,91 @@ void UMainMenuGameInstanceBase::Init()
 	// UserInfo = UserManager->GetAllUserInfo_CPP()[0];
 	// UserManager->SwitchCurrentUser_CPP(UserInfo.BaseInfo.UserName);
 	
-	SavingBaseHandler->Init(UserManager);
-	
+	// SavingBaseHandler->Init(UserManager);
 
+	CreateHandlers(UMainMenuGameInstanceConfig::Get()->HandlerClassDict, Map_HandlerName_To_HandlerObj, this);
+	InitHandlers(this, UMainMenuGameInstanceConfig::Get()->HandlerClassDict, Map_HandlerName_To_HandlerObj);
+}
+
+void UMainMenuGameInstanceBase::InitHandlers(II_GI_MenuFramework* InGameInstance, TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& InCreatedHandlerDict)
+{
+	for (auto Pair : InHandlerClassDict)
+	{
+		TMap<FName, UFunctionHandlerBase*> DependentHandlerDict;
+		for (auto DependentHandlerName : Pair.Value.DependencyHandlerNameCollection)
+		{
+			DependentHandlerDict.Add(DependentHandlerName, InCreatedHandlerDict[DependentHandlerName]);
+		}
+
+		InCreatedHandlerDict[Pair.Key]->InitHandler(InGameInstance, DependentHandlerDict);
+	}
+}
+
+void UMainMenuGameInstanceBase::CreateHandlers(TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& InCreatedHandlerDict, UObject* ObjectOuter)
+{
+	auto& HandlerToCreateInfoDict = InHandlerClassDict;
+	TArray<FName> CurrentCreateHandleList;
+	HandlerToCreateInfoDict.GetKeys(CurrentCreateHandleList);
+	TSet<FName> HandlerNameCollection(CurrentCreateHandleList);
+
+	// 删除掉 依赖项不在待创建Handler的列表。
+	for (FName HandlerName : CurrentCreateHandleList)
+	{
+		const auto& CurrentCreationHandlerInfo = HandlerToCreateInfoDict[HandlerName];
+		if ( ! HandlerNameCollection.Includes(CurrentCreationHandlerInfo.DependencyHandlerNameCollection))
+		{
+			CurrentCreateHandleList.Remove(HandlerName);
+		}
+	}
+
+	int PreviousRemainHandlerCount = CurrentCreateHandleList.Num();
+	int ScanCount = CurrentCreateHandleList.Num();
+	while(CurrentCreateHandleList.Num() > 0)
+	{
+		// 取出第一个待创建Handler的名称
+		const FName CurrentCreationHandlerName = CurrentCreateHandleList[0];
+		const auto& CurrentCreationHandlerInfo = HandlerToCreateInfoDict[CurrentCreationHandlerName];
+
+		// 从待创建Handler的名称中移除掉取出元素
+		CurrentCreateHandleList.RemoveAt(0);
+
+		// 获取待创建Handler的依赖列表
+		bool bNoDependency = false;
+		auto DependencyList = CurrentCreationHandlerInfo.DependencyHandlerNameCollection;
+		for (auto DenpendencyName : DependencyList)
+		{
+		
+			auto HandlerObj = InCreatedHandlerDict.Find(DenpendencyName);
+			// 由于依赖的Handler不存在，退出循环。
+			if (!HandlerObj)
+			{
+				bNoDependency = true;
+				break;
+			}
+		}
+		
+		// 防止出现不存在依赖
+		ScanCount--;
+		if (ScanCount == 0)
+		{
+			ScanCount = CurrentCreateHandleList.Num();
+		}
+		
+
+		// 依赖不满足，将该Handler的名称重新添加到 【待创建Handler的名称】 列表的末尾。
+		if (bNoDependency)
+		{
+			CurrentCreateHandleList.Add(FName(CurrentCreationHandlerName));
+			continue;
+		}
+		
+		// 所有依赖已经被创建的话，才继续创建
+		UE_LOG(LogTemp, Warning, TEXT("Function:[%s] Create handler of class [%s] with name [%s]"), ANSI_TO_TCHAR(__FUNCTION__), *CurrentCreationHandlerInfo.HandlerClass->GetName(), *CurrentCreationHandlerName.ToString());
+		UFunctionHandlerBase* const& CreatedObj = NewObject<UFunctionHandlerBase>(
+			ObjectOuter, CurrentCreationHandlerInfo.HandlerClass, CurrentCreationHandlerName);
+		InCreatedHandlerDict.Add(FName(CurrentCreationHandlerName), CreatedObj);
+	}
+	UE_LOG(LogTemp, Display, TEXT("Function:[%s] MESSAGE"), ANSI_TO_TCHAR(__FUNCTION__));
 }
 
 UFunctionHandlerBase* UMainMenuGameInstanceBase::FindHandler_ByName_CPP(FName InHandlerName)

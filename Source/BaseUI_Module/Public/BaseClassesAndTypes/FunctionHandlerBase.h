@@ -39,12 +39,37 @@ public:
 	 * @brief 某个Handler依赖的Handler名称列表
 	 * @return 
 	 */
-	virtual TArray<FName> GetDependenceHandlerFNameList() { return TArray<FName>(); }
+	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() { return TSet<UClass*>(); }
 
 	/**
 	 * @brief 由GameInstance 在创建完成本Handler的依赖Handler对象后，进行调用，并传入依赖的
 	 */
-	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr) {}
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
+	{
+		GameInstancePtr = InGameInstancePtr;
+		
+		TSet<UClass*> NotMatchInterfaceList(GetDependenceHandlerInterfaceCollection());
+		for (const auto Pair : InDependencyHandlerDict)
+		{
+			UClass* MatchedInterface = nullptr;
+			for (const auto InterfacePtr : NotMatchInterfaceList)
+			{
+				if (Pair.Value->GetClass()->ImplementsInterface(InterfacePtr))
+				{
+					MatchedInterface = InterfacePtr;
+					AssignInterfacePtr(Pair.Value, MatchedInterface);
+					break;
+				}
+			}
+
+			if (MatchedInterface && NotMatchInterfaceList.Num() > 1)
+			{
+				NotMatchInterfaceList.Remove(MatchedInterface);
+			}
+		}
+	}
+
+	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) {}
 
 	virtual EFunctionHandlerType GetHandlerType() { return HandlerType; }
 
@@ -63,4 +88,5 @@ protected:
 
 protected:
 	EFunctionHandlerType HandlerType;
+	II_GI_MenuFramework* GameInstancePtr;
 };
