@@ -27,6 +27,27 @@ void USinglePlayerMenuBaseHandler::StartNewGame_CPP()
  	}
 }
 
+TSet<UClass*> USinglePlayerMenuBaseHandler::GetDependenceHandlerInterfaceCollection()
+{
+	static const TSet<UClass*> DependenceHandlerClassCollection = {
+		UI_UI_MapSelectable::StaticClass(),
+		UI_UI_Savable::StaticClass()
+	};
+	return DependenceHandlerClassCollection;
+}
+
+void USinglePlayerMenuBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
+{
+	if (MatchedInterfaceClassPtr == UI_UI_MapSelectable::StaticClass())
+	{
+		MapSelectableObj = MatchedObjectPtr;
+	}
+	else if (MatchedInterfaceClassPtr == UI_UI_Savable::StaticClass())
+	{
+		SaveBaseHandler = MatchedObjectPtr;
+	}
+}
+
 void USinglePlayerMenuBaseHandler::StartNewGame_Implementation()
 {
 	StartNewGame_CPP();

@@ -26,9 +26,9 @@ protected:
 #pragma region 从ULowLevelFunctionHandlerBase继承
 public:
 	virtual FName GetHandlerFName() override { return FName("UserManager"); }
-	virtual TArray<FName> GetDependenceHandlerFNameList() override { return TArray<FName>(); }
+	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override { return TSet<UClass*>(); }
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
-	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr) override;
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict) override;
 protected:
 	virtual void OnStart() override {}
 #pragma endregion 从ULowLevelFunctionHandlerBase继承

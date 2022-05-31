@@ -22,7 +22,11 @@ public:
 	USinglePlayerMenuBaseHandler(UObject* InMapSelectableObj) { this->MapSelectableObj = InMapSelectableObj; }
 protected:
 	virtual ~USinglePlayerMenuBaseHandler() override {}
+
 public:
+	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
+	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
+	
 	virtual void StartNewGame_Implementation() override;
 	virtual void ContinueFromLast_Implementation() override;
 

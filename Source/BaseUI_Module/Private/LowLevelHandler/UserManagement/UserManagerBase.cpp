@@ -6,9 +6,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "LowLevelHandler/UserManagement/UserManagementGlobals.h"
 
-void UUserManagerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr)
+void UUserManagerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
 {
-	Super::InitHandler(InGameInstancePtr);
+	Super::InitHandler(InGameInstancePtr, InDependencyHandlerDict);
 	LoadUserInfo();
 	bIsInitial = true;
 

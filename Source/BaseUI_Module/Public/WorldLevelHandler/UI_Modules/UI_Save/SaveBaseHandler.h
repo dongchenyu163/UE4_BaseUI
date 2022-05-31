@@ -27,6 +27,8 @@ public:
 protected:
 	virtual ~USaveBaseHandler() override {}
 public:
+	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
+	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
 	
 	virtual void SaveGame_CPP(int32 InSlotNum) override;
 	virtual void SaveGame_Auto_CPP() override;

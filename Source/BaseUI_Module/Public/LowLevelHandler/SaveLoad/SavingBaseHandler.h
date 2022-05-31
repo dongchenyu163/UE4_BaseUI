@@ -7,6 +7,7 @@
 #include "Interfaces/I_Save.h"
 #include "Kismet/GameplayStatics.h"
 #include "LowLevelHandler/LowLevelHandlerBase/LowLevelFunctionHandlerBase.h"
+#include "LowLevelHandler/UserManagement/UserManagerBase.h"
 #include "MultiUserSaveSystem/DongSaveSystemStatic.h"
 #include "UObject/Object.h"
 #include "LowLevelHandler/UserManagement/Interfaces/I_UserManager.h"
@@ -28,9 +29,10 @@ protected:
 #pragma region 从ULowLevelFunctionHandlerBase继承
 public:
 	virtual FName GetHandlerFName() override { return FName("LowLevelSaveHandler"); }
-	virtual TArray<FName> GetDependenceHandlerFNameList() override { return { FName("UserManager") }; }
+	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
-	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr) override;
+	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict) override;
 protected:
 	virtual void OnStart() override {}
 #pragma endregion 从ULowLevelFunctionHandlerBase继承

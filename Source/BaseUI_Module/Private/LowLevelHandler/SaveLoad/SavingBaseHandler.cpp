@@ -9,9 +9,26 @@
 #include "LowLevelHandler/SaveLoad/SaveLoadSystemGlobals.h"
 #include "LowLevelHandler/SaveLoad/MultiUserSaveSystem/DongSaveSystemStatic.h"
 
-void USavingBaseHandler::InitHandler(II_GI_MenuFramework* InGameInstancePtr)
+TSet<UClass*> USavingBaseHandler::GetDependenceHandlerInterfaceCollection()
 {
-	Super::InitHandler(InGameInstancePtr);
+	static const TSet<UClass*> DependenceHandlerClassCollection = {
+		UI_UserManager::StaticClass()
+	};
+	return DependenceHandlerClassCollection;
+}
+
+void USavingBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
+{
+	if (UI_UserManager::StaticClass())
+	{
+		UserManagerObj = MatchedObjectPtr;
+		UserManagerPtr = dynamic_cast<II_UserManager*>(MatchedObjectPtr);
+	}
+}
+
+void USavingBaseHandler::InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
+{
+	Super::InitHandler(InGameInstancePtr, InDependencyHandlerDict);
 	// InGameInstancePtr->FindHandler
 // 	UserManagerObj = InUserManagerObj;
 //

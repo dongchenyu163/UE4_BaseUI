@@ -16,6 +16,28 @@ USaveBaseHandler::USaveBaseHandler()
 	// OnSaveFinished_CPP.BindUObject(this, &USaveBaseHandler::Handle_AsyncSaveGameToSlotDelegate);
 }
 
+TSet<UClass*> USaveBaseHandler::GetDependenceHandlerInterfaceCollection()
+{
+	static const TSet<UClass*> DependenceHandlerClassCollection = {
+		UI_Save::StaticClass(),
+		UI_UserManager::StaticClass()
+	};
+	return DependenceHandlerClassCollection;
+}
+
+void USaveBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
+{
+	Super::AssignInterfacePtr(MatchedObjectPtr, MatchedInterfaceClassPtr);
+	if (UI_Save::StaticClass())
+	{
+		SavingHandlePtr = dynamic_cast<II_Save*>(MatchedObjectPtr);
+	}
+	else if (UI_UserManager::StaticClass())
+	{
+		UserManagerPtr = dynamic_cast<II_UserManager*>(MatchedObjectPtr);
+	}
+}
+
 void USaveBaseHandler::SaveUserGlobalData_CPP()
 {
 #if WITH_EDITOR
