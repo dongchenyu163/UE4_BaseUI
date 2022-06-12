@@ -9,7 +9,7 @@
 /**
  * 方便切换UI的时候指定UI；
  */
-UCLASS()
+UCLASS(BlueprintType)
 class BASEUI_MODULE_API UDA_WidgetInfo : public UDataAsset
 {
 	GENERATED_BODY()
