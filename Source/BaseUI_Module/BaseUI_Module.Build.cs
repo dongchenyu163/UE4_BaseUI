@@ -17,7 +17,10 @@ public class BaseUI_Module : ModuleRules
             "DeveloperSettings", 
             "ImageWrapper" // 将Texture变为压缩图片格式, "LevelSnapshots" 
 		});
-		
+		if (Target.bBuildEditor == true)
+		{
+			PrivateDependencyModuleNames.Add("UnrealEd");
+		}
 		PublicIncludePaths.AddRange(new string[] {"BaseUI_Module/Public"});
 		PrivateIncludePaths.AddRange(new string[] {"BaseUI_Module/Private"});
 	}
