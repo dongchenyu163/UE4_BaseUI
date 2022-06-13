@@ -35,16 +35,19 @@ public:
 	/*******************************
 	 * BaseHandler对象获取函数区域
 	 *******************************/
-#pragma region 功能函数区域	
+#pragma region 功能函数区域
+	// UResumeMenuBaseHandler
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|BaseFunction", meta=(ToolTip="返回主菜单时用"))
 	TSoftObjectPtr<UWorld> GetMainMenuMap();
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|BaseFunction")
 	UDataTable* GetMapInfoDataTable();
+	// USaveBaseHandler
 	virtual UDataTable* GetMapInfoDataTable_CPP() = 0;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|BaseFunction")
 	FMapUIInfo GetMapUIInfo(FName InMapIdentifier);
+	// UNextLevelBaseHandler  UAC_CTRL_MenuBase
 	virtual FMapUIInfo* GetMapUIInfo_CPP(FName InMapIdentifier) = 0;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|BaseFunction", meta=(ToolTip="USaveBaseHandler保存UserGlobalData的时候需要的地图进度信息"))
@@ -61,14 +64,17 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|BaseFunction")
 	FMapUIInfo GetPlayingMapUIInfo();
+	// USaveBaseHandler UNextLevelBaseHandler
 	virtual FMapUIInfo* GetPlayingMapUIInfo_CPP() = 0;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|BaseFunction")
 	void SetPlayingMapUIInfo(FMapUIInfo InNewMapInfo);
+	// UMapSelectionBaseHandler
 	virtual void SetPlayingMapUIInfo_CPP(const FMapUIInfo* InNewMapInfo) = 0;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="GameInstance|MenuFramework|BaseFunction", meta=(ToolTip="重置UDA_WidgetInfo中的WidgetRef变量，切换地图的时候该变量会被置空"))
 	void ResetWidgetInfo();
+	// UMapSelectionBaseHandler
 	virtual void ResetWidgetInfo_CPP() = 0;
 
 	virtual FOnAnyWorldBeginPlay* GetOnAnyWorldBeginPlayDelegate_CPP() = 0;
