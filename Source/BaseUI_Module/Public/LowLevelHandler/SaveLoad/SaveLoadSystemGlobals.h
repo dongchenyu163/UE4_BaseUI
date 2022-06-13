@@ -8,6 +8,7 @@
 #include "ClassAndStructs/ESaveGameType.h"
 #include "ClassAndStructs/FDongSaveSystemSavingParam.h"
 #include "ClassAndStructs/FSaveLoadSystemSaveArea.h"
+#include "Misc/FileHelper.h"
 #include "SaveLoadSystemGlobals.generated.h"
 
 
