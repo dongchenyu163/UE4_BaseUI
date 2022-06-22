@@ -32,6 +32,7 @@ protected:
 public:
 	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
+	virtual void AssignDependentHandlerPtr() override;
 	
 	virtual void StartNewGame_Implementation() override;
 	virtual void ContinueFromLast_Implementation() override;

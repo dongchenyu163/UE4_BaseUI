@@ -47,6 +47,13 @@ void USaveBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* Mat
 	}
 }
 
+void USaveBaseHandler::AssignDependentHandlerPtr()
+{
+	Super::AssignDependentHandlerPtr();
+	SavingHandlePtr = dynamic_cast<II_Save*>(Map_Purpose_To_HandlerInstance["LowLevelSaveHandler"]);
+	UserManagerPtr = dynamic_cast<II_UserManager*>(Map_Purpose_To_HandlerInstance["UserManager"]);
+}
+
 void USaveBaseHandler::SaveUserGlobalData_CPP()
 {
 #if WITH_EDITOR

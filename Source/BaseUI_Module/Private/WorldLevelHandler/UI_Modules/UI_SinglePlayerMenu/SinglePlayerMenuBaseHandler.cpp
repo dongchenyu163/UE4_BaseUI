@@ -66,6 +66,15 @@ void USinglePlayerMenuBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr,
 	}
 }
 
+void USinglePlayerMenuBaseHandler::AssignDependentHandlerPtr()
+{
+	Super::AssignDependentHandlerPtr();
+	// MapSelectableObj = dynamic_cast<II_UI_MapSelectable*>(Map_Purpose_To_HandlerInstance["MapSelector"]);
+	// SaveBaseHandler = dynamic_cast<II_UI_Savable*>(Map_Purpose_To_HandlerInstance["SaveHandler"]);
+	MapSelectableObj = Map_Purpose_To_HandlerInstance["MapSelector"];
+	SaveBaseHandler = Map_Purpose_To_HandlerInstance["SaveHandler"];
+}
+
 void USinglePlayerMenuBaseHandler::StartNewGame_Implementation()
 {
 	StartNewGame_CPP();

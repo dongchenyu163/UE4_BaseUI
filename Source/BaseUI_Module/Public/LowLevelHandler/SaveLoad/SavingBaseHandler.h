@@ -36,6 +36,7 @@ public:
 	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
+	virtual void AssignDependentHandlerPtr() override;
 	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict) override;
 protected:
 	virtual void OnStart() override {}

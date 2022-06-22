@@ -42,8 +42,8 @@ void UFunctionHandlerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr,
 		const auto PurposeStringPtr = Map_Purpose_To_HandlerName.FindKey(Pair.Key);
 		if (!PurposeStringPtr)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Function:[%s] MESSAGE"), ANSI_TO_TCHAR(__FUNCTION__));
-			return;
+			UE_LOG(LogTemp, Error, TEXT("Function:[%s] Didn't match the Purpose: [%s] with a handler name."), ANSI_TO_TCHAR(__FUNCTION__), **PurposeStringPtr);
+			continue;
 		}
 		Map_Purpose_To_HandlerInstance.Add(*PurposeStringPtr, Pair.Value);
 	}

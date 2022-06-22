@@ -49,6 +49,12 @@ public:
 	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict);
 
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) {}
+	/**
+	 * @brief （可选，子类实现）虽然有Map_Purpose_To_HandlerInstance可以直接引用Handler，但是我们还需要更短的名称来引用各个Handler。
+	 *			子类中根据自己的需要将Map_Purpose_To_HandlerInstance变量中的Handler赋给某个变量，方便后续引用。
+	 *			本函数在InitHandler函数的最后被调用。
+	 */
+	virtual void AssignDependentHandlerPtr() {}
 
 	virtual EFunctionHandlerType GetHandlerType() { return HandlerType; }
 

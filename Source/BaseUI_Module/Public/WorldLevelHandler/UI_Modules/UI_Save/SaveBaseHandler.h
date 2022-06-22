@@ -44,7 +44,8 @@ protected:
 public:
 	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
-	
+	virtual void AssignDependentHandlerPtr() override;
+
 	virtual void SaveGame_CPP(int32 InSlotNum) override;
 	virtual void SaveGame_Auto_CPP() override;
 	virtual void SaveGame_Quick_CPP() override;

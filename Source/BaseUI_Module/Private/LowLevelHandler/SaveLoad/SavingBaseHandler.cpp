@@ -38,6 +38,12 @@ void USavingBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* M
 	}
 }
 
+void USavingBaseHandler::AssignDependentHandlerPtr()
+{
+	Super::AssignDependentHandlerPtr();
+	UserManagerPtr = dynamic_cast<II_UserManager*>(Map_Purpose_To_HandlerInstance["UserManager"]);
+}
+
 void USavingBaseHandler::InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
 {
 	Super::InitHandler(InGameInstancePtr, InDependencyHandlerDict);
