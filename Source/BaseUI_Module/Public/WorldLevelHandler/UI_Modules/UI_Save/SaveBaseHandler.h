@@ -23,7 +23,22 @@ class BASEUI_MODULE_API USaveBaseHandler : public UUIHandlerBase, public II_UI_S
 {
 	GENERATED_BODY()
 public:
-	USaveBaseHandler();
+	USaveBaseHandler()
+	{
+		// Map_Purpose_To_DependenceHandlerClassPtr.Add("LowLevelSaveHandler", UI_UserManager::StaticClass());
+		// Map_Purpose_To_PurposeTooltip.Add("LowLevelSaveHandler", NSLOCTEXT("USaveBaseHandler", "LowLevelSaveHandler_Tooltip", "实际进行文件操作以及保存读取的Handler"));
+		//
+		// Map_Purpose_To_DependenceHandlerClassPtr.Add("UserManager", UI_UserManager::StaticClass());
+		// Map_Purpose_To_PurposeTooltip.Add("UserManager", NSLOCTEXT("USaveBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"));
+
+		// OnSaveFinished_CPP.BindUObject(this, &USaveBaseHandler::Handle_AsyncSaveGameToSlotDelegate);
+	}
+	
+public:
+	const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
+	const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
+	const static FFunctionHandlerDef HandlerDef;
+
 protected:
 	virtual ~USaveBaseHandler() override {}
 public:

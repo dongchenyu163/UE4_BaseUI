@@ -57,12 +57,12 @@ void UMainMenuGameInstanceBase::InitHandlers(II_GI_MenuFramework* InGameInstance
 		{
 			DependentHandlerDict.Add(DependentHandlerName, InCreatedHandlerDict[DependentHandlerName]);
 		}
-
+		// InHandlerClassDict[Pair.Key].Map_Purpose_To_HandlerName
 		InCreatedHandlerDict[Pair.Key]->InitHandler(InGameInstance, DependentHandlerDict);
 	}
 }
 
-void UMainMenuGameInstanceBase::CreateHandlers(TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& InCreatedHandlerDict, UObject* ObjectOuter)
+void UMainMenuGameInstanceBase::CreateHandlers(TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& OutCreatedHandlerDict, UObject* InObjectOuter)
 {
 	auto& HandlerToCreateInfoDict = InHandlerClassDict;
 	TArray<FName> CurrentCreateHandleList;
@@ -93,10 +93,10 @@ void UMainMenuGameInstanceBase::CreateHandlers(TMap<FName, FFunctionHandlerInfo>
 		// 获取待创建Handler的依赖列表
 		bool bNoDependency = false;
 		auto DependencyList = CurrentCreationHandlerInfo.DependencyHandlerNameCollection;
-		for (auto DenpendencyName : DependencyList)
+		for (auto DependencyName : DependencyList)
 		{
 		
-			auto HandlerObj = InCreatedHandlerDict.Find(DenpendencyName);
+			auto HandlerObj = OutCreatedHandlerDict.Find(DependencyName);
 			// 由于依赖的Handler不存在，退出循环。
 			if (!HandlerObj)
 			{
@@ -123,18 +123,19 @@ void UMainMenuGameInstanceBase::CreateHandlers(TMap<FName, FFunctionHandlerInfo>
 		// 所有依赖已经被创建的话，才继续创建
 		UE_LOG(LogTemp, Warning, TEXT("Function:[%s] Create handler of class [%s] with name [%s]"), ANSI_TO_TCHAR(__FUNCTION__), *CurrentCreationHandlerInfo.HandlerClass->GetName(), *CurrentCreationHandlerName.ToString());
 		UFunctionHandlerBase* const& CreatedObj = NewObject<UFunctionHandlerBase>(
-			ObjectOuter, CurrentCreationHandlerInfo.HandlerClass, CurrentCreationHandlerName);
-		InCreatedHandlerDict.Add(FName(CurrentCreationHandlerName), CreatedObj);
+			InObjectOuter, CurrentCreationHandlerInfo.HandlerClass, CurrentCreationHandlerName);
+		CreatedObj->SetHandlerName(CurrentCreationHandlerName);
+		OutCreatedHandlerDict.Add(FName(CurrentCreationHandlerName), CreatedObj);
 	}
 	UE_LOG(LogTemp, Display, TEXT("Function:[%s] MESSAGE"), ANSI_TO_TCHAR(__FUNCTION__));
 }
 
 UFunctionHandlerBase* UMainMenuGameInstanceBase::FindHandler_ByName_CPP(FName InHandlerName)
 {
-	auto FindResutlt = Map_HandlerName_To_HandlerObj.Find(InHandlerName);
-	if (FindResutlt)
+	auto FindResult = Map_HandlerName_To_HandlerObj.Find(InHandlerName);
+	if (FindResult)
 	{
-		return *FindResutlt;
+		return *FindResult;
 	}
 	else
 	{

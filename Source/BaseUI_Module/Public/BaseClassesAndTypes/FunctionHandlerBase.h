@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 // #include "GameplayClasses/GameInstanceBase/Interfaces/I_GI_MenuFramework.h"
+#include "FunctionHandlerDef.h"
 #include "UObject/Object.h"
 #include "FunctionHandlerBase.generated.h"
 
@@ -40,39 +41,21 @@ public:
 	 * @return 
 	 */
 	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() { return TSet<UClass*>(); }
-
+	virtual TMap<FString, UClass*> GetPurpose_To_DependenceHandlerDict() { return Map_Purpose_To_DependenceHandlerClass; }
+	virtual FText GetPurposeTooltipText(FString InPurposeString) { return Map_Purpose_To_PurposeTooltip[InPurposeString]; }
 	/**
 	 * @brief 由GameInstance 在创建完成本Handler的依赖Handler对象后，进行调用，并传入依赖的
 	 */
-	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
-	{
-		GameInstancePtr = InGameInstancePtr;
-		
-		TSet<UClass*> NotMatchInterfaceList(GetDependenceHandlerInterfaceCollection());
-		for (const auto Pair : InDependencyHandlerDict)
-		{
-			UClass* MatchedInterface = nullptr;
-			for (const auto InterfacePtr : NotMatchInterfaceList)
-			{
-				if (Pair.Value->GetClass()->ImplementsInterface(InterfacePtr))
-				{
-					MatchedInterface = InterfacePtr;
-					AssignInterfacePtr(Pair.Value, MatchedInterface);
-					break;
-				}
-			}
-
-			if (MatchedInterface && NotMatchInterfaceList.Num() > 1)
-			{
-				NotMatchInterfaceList.Remove(MatchedInterface);
-			}
-		}
-	}
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict);
 
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) {}
 
 	virtual EFunctionHandlerType GetHandlerType() { return HandlerType; }
 
+	virtual void Get_Map_Purpose_To_DependenceHandlerClass(TMap<FString, UClass*>& Out_Map_Purpose_To_DependenceHandlerClass)
+	{
+		Out_Map_Purpose_To_DependenceHandlerClass = Map_Purpose_To_DependenceHandlerClass;
+	}
 protected:
 	/**
 	 * @brief 游戏本身开始的时候被调用；转发GameInstance的同名函数给子类。
@@ -86,7 +69,19 @@ protected:
 	virtual void OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld) {}
 
 
+public:
+	FName GetHandlerName() const { return HandlerName; }
+	void SetHandlerName(const FName& InHandlerName) { this->HandlerName = InHandlerName; }
+protected:
+	FName HandlerName = "";
+
 protected:
 	EFunctionHandlerType HandlerType;
 	II_GI_MenuFramework* GameInstancePtr;
+	TMap<FString, UFunctionHandlerBase*> Map_Purpose_To_HandlerInstance;
+
+public:
+	const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
+	const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
+	const static FFunctionHandlerDef HandlerDef;
 };

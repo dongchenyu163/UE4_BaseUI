@@ -73,7 +73,7 @@ public:
 
 	virtual FMapUIInfo* FindMapUIInfo_ByUWorld(UWorld* InWorldPtr);
 	static void InitHandlers(II_GI_MenuFramework* InGameInstance, TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& InCreatedHandlerDict);
-	static void CreateHandlers(TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& InCreatedHandlerDict, UObject* ObjectOuter = GetTransientPackage());
+	static void CreateHandlers(TMap<FName, FFunctionHandlerInfo>& InHandlerClassDict, TMap<FName, UFunctionHandlerBase*>& OutCreatedHandlerDict, UObject* InObjectOuter = GetTransientPackage());
 protected:
 
 	UPROPERTY()

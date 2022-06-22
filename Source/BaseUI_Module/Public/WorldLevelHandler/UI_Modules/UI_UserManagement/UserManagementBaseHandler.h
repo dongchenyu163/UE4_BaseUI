@@ -16,6 +16,11 @@ class BASEUI_MODULE_API UUserManagementBaseHandler : public UUIHandlerBase, publ
 {
 	GENERATED_BODY()
 
+public:
+	const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
+	const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
+	const static FFunctionHandlerDef HandlerDef;
+	
 protected:
 	virtual ~UUserManagementBaseHandler() override {}
 public:

@@ -19,6 +19,12 @@ class BASEUI_MODULE_API USinglePlayerMenuBaseHandler : public UUIHandlerBase, pu
 	GENERATED_BODY()
 public:
 	USinglePlayerMenuBaseHandler() {}
+
+public:
+	const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
+	const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
+	const static FFunctionHandlerDef HandlerDef;
+	
 	USinglePlayerMenuBaseHandler(UObject* InMapSelectableObj) { this->MapSelectableObj = InMapSelectableObj; }
 protected:
 	virtual ~USinglePlayerMenuBaseHandler() override {}

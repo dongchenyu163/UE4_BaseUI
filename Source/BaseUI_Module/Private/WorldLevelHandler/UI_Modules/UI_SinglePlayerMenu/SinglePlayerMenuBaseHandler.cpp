@@ -4,6 +4,24 @@
 #include "WorldLevelHandler/UI_Modules/UI_SinglePlayerMenu/SinglePlayerMenuBaseHandler.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameplayClasses/GameInstanceBase/Interfaces/I_GI_MenuFramework.h"
+#include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_Save/SaveBaseHandler.h"
+
+const TMap<FString, UClass*> USinglePlayerMenuBaseHandler::Map_Purpose_To_DependenceHandlerClass = {
+	TPair<FString, UClass*>("MapSelector", UMapSelectionBaseHandler::StaticClass()),
+	TPair<FString, UClass*>("SaveHandler", USaveBaseHandler::StaticClass()),
+};
+const TMap<FString, FText> USinglePlayerMenuBaseHandler::Map_Purpose_To_PurposeTooltip = {
+	TPair<FString, FText>("MapSelector", NSLOCTEXT("USinglePlayerMenuBaseHandler", "MapSelector_Tooltip", "主菜单需要选择以及切换地图。本依赖Handler主要读取地图的信息以及加载对应地图。")),
+	TPair<FString, FText>("SaveHandler", NSLOCTEXT("USinglePlayerMenuBaseHandler", "SaveHandler_Tooltip", "主菜单需要保存的功能；实际进行文件操作以及保存读取的Handler")),
+};
+
+const FFunctionHandlerDef USinglePlayerMenuBaseHandler::HandlerDef(USinglePlayerMenuBaseHandler::StaticClass(), {
+	HandlerDependentPair("MapSelector", new FFunctionHandlerDependent(UMapSelectionBaseHandler::StaticClass(),
+		NSLOCTEXT("USinglePlayerMenuBaseHandler", "MapSelector_Tooltip", "主菜单需要选择以及切换地图。本依赖Handler主要读取地图的信息以及加载对应地图。"))),
+	HandlerDependentPair("SaveHandler", new FFunctionHandlerDependent(USaveBaseHandler::StaticClass(),
+		NSLOCTEXT("USinglePlayerMenuBaseHandler", "SaveHandler_Tooltip", "主菜单需要保存的功能；实际进行文件操作以及保存读取的Handler"))),
+});
 
 void USinglePlayerMenuBaseHandler::StartNewGame_CPP()
 {

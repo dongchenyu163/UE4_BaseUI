@@ -5,16 +5,25 @@
 
 #include "ImageUtils.h"
 #include "LowLevelHandler/SaveLoad/ClassAndStructs/SaveGameObjBase.h"
+#include "WorldLevelHandler/UI_Modules/UI_UserManagement/UserManagementBaseHandler.h"
 #include "WorldLevelHandler/UI_Modules/UI_Save/Interfaces/I_CustomSave.h"
 #include "Misc/OutputDeviceNull.h"
 #include "LowLevelHandler/SaveLoad/MultiUserSaveSystem/DongSaveSystemStatic.h"
 
-
-USaveBaseHandler::USaveBaseHandler()
-	:UUIHandlerBase()
-{
-	// OnSaveFinished_CPP.BindUObject(this, &USaveBaseHandler::Handle_AsyncSaveGameToSlotDelegate);
-}
+const TMap<FString, UClass*> USaveBaseHandler::Map_Purpose_To_DependenceHandlerClass = {
+	TPair<FString, UClass*>("LowLevelSaveHandler", USavingBaseHandler::StaticClass()),
+	TPair<FString, UClass*>("UserManager", UUserManagerBase::StaticClass()),
+};
+const TMap<FString, FText> USaveBaseHandler::Map_Purpose_To_PurposeTooltip = {
+	TPair<FString, FText>("LowLevelSaveHandler", NSLOCTEXT("USaveBaseHandler", "LowLevelSaveHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。")),
+	TPair<FString, FText>("UserManager", NSLOCTEXT("USaveBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。")),
+};
+const FFunctionHandlerDef USaveBaseHandler::HandlerDef(USaveBaseHandler::StaticClass(), {
+	HandlerDependentPair("LowLevelSaveHandler", new FFunctionHandlerDependent(USavingBaseHandler::StaticClass(),
+		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+	HandlerDependentPair("UserManager", new FFunctionHandlerDependent(UUserManagerBase::StaticClass(),
+		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+});
 
 TSet<UClass*> USaveBaseHandler::GetDependenceHandlerInterfaceCollection()
 {
