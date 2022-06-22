@@ -41,32 +41,9 @@ public:
 	static TSharedRef<class IPropertyTypeCustomization> MakeInstance();
 	void Handle_OnHandlerClassChanged();
 
-	~FFunctionHandlerPropertyCustomizer()
-	{
-
-	}
-
 	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow,
 	                             IPropertyTypeCustomizationUtils& CustomizationUtils) override
-	{
-		// PropertyHandle->
-		// HeaderRow->
-		// CustomizationUtils-> // 没啥用，只有字体什么的设置
-		
-		// HeaderRow
-		// .NameContent()
-		// [
-		// 	SNew(STextBlock)
-		// 	.Text(FText::FromString("CustomizeHeader Slot 1"))
-		// ]
-		// .ValueContent()
-		// [
-		// 	SNew(STextBlock)
-		// 	.Text(FText::FromString("CustomizeHeader Slot 2"))
-		// ];
-
-		// UE_LOG(LogTemp, Display, TEXT("Function:[%s] Got property [%s]"), ANSI_TO_TCHAR(__FUNCTION__), *PropertyHandle->GetProperty()->GetName());
-	}
+	{}
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle, IDetailChildrenBuilder& ChildBuilder,
 		IPropertyTypeCustomizationUtils& CustomizationUtils) override;
 	void MakeNewDependentHandlerSelectionWidget(TSharedRef<IPropertyHandle> PropertyHandle,
@@ -75,9 +52,10 @@ public:
 	void Handler_OnConfigChanged();
 
 	void Update_ValidHandlerName_ByClass(UClass* InClass, const ::FString& InCurrentHandlerPurposeString, TArray<TSharedPtr<FString>>& OutFilteredHandlerName);
+	//  各个ComboBox 提供 选项的 数据源
 	static TMap<FString, TArray<TSharedPtr<FString>>> Map_HandlerNamePurpose_To_ValidDependentNameList;
+	// ComboBox的指针，方便【删除不用的控件】以及【更新选项的值】
 	static TMap<FString, TSharedPtr<STextComboBox>> Map_HandlerNamePurpose_To_ComboBoxPtr;
-	// static TArray<TSharedPtr<STextComboBox>> ComboBoxPtrList;
 	static int CreationCount;
 	TArray<TSharedPtr<STextComboBox>> SelfComboBoxPtrList;
 
