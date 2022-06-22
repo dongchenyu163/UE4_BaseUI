@@ -185,6 +185,7 @@ void FFunctionHandlerPropertyCustomizer::MakeNewDependentHandlerSelectionWidget(
 			)
 			.OptionsSource(&Map_HandlerNamePurpose_To_ValidDependentNameList[ValidDependentList_KeyName])
 			.InitiallySelectedItem(Map_HandlerNamePurpose_To_ValidDependentNameList[ValidDependentList_KeyName][0])
+			.ToolTipText(Pair.Value()->Tooltip)
 			.Font(DetailsNormalFont);
 		Map_HandlerNamePurpose_To_ComboBoxPtr.Add(ValidDependentList_KeyName, ComboBoxPtr);
 		SelfComboBoxPtrList.Add(ComboBoxPtr);
@@ -201,6 +202,7 @@ void FFunctionHandlerPropertyCustomizer::MakeNewDependentHandlerSelectionWidget(
 					SNew(STextBlock)
 					.Text(FText::FromString(Pair.Key()))
 					.Font(DetailsNormalFont)
+					.ToolTipText(Pair.Value()->Tooltip)
 				]
 			]
 			.ValueContent()
