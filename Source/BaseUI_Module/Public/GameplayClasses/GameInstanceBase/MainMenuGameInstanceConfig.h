@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ClassesAndStructs/FFunctionHandlerClassCustomizer.h"
 #include "ClassesAndStructs/FunctionHandlerInfo.h"
 #include "WorldLevelHandler/UI_Modules/BaseHandler/UIHandlerBase.h"
 #include "UObject/Object.h"
