@@ -19,7 +19,13 @@ public class BaseUI_Module : ModuleRules
 		});
 		if (Target.bBuildEditor == true)
 		{
-			PrivateDependencyModuleNames.Add("UnrealEd");
+			
+			PrivateDependencyModuleNames.AddRange(new string[]
+			{
+				"UnrealEd",
+				"PropertyEditor",
+				"EditorStyle",
+			});
 		}
 		PublicIncludePaths.AddRange(new string[] {"BaseUI_Module/Public"});
 		PrivateIncludePaths.AddRange(new string[] {"BaseUI_Module/Private"});
