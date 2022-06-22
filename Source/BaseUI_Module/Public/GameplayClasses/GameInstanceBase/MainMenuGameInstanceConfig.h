@@ -167,5 +167,8 @@ public:
 	UPROPERTY(EditAnywhere, Config, BlueprintReadOnly, Category="UI Handler Settings", meta=(DisplayName="Handler use in game", ToolTip="程序中使用FName来查找并引用对应模块"))
 	TMap<FName, FFunctionHandlerInfo> HandlerClassDict;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Base Info")
+	UDataTable* DT_MapInfo;
+
 	
 };
