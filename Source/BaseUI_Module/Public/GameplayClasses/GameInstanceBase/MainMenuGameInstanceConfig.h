@@ -93,10 +93,6 @@ public:
 	{
 		FPropertyEditorModule& PropertyEditorModuleRef = FModuleManager::GetModuleChecked<FPropertyEditorModule>("PropertyEditor");
 		PropertyEditorModuleRef.RegisterCustomClassLayout("MainMenuGameInstanceConfig", FOnGetDetailCustomizationInstance::CreateUObject(this, &UMainMenuGameInstanceConfig::MakeFunctionHandlerClassCustomizerInstance));
-
-		// PropertyEditorModuleRef.RegisterCustomClassLayout("MainMenuGameInstanceConfig", FOnGetDetailCustomizationInstance::CreateStatic(&FFunctionHandlerClassCustomizer::MakeInstance));
-		// PropertyEditorModuleRef.Find
-		// PropertyEditorModuleRef.regis
 	}
 
 	
