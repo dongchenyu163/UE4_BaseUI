@@ -169,17 +169,21 @@ void FFunctionHandlerPropertyCustomizer::MakeNewDependentHandlerSelectionWidget(
 		TSharedPtr<STextComboBox> ComboBoxPtr;
 		SAssignNew(ComboBoxPtr, STextComboBox)
 			.OnSelectionChanged_Lambda(
-			[this, PurposeString]
+			[this, PurposeString, CustomizationHandlerName]
 			(TSharedPtr<FString> InNewChoice, ESelectInfo::Type InSelectionType)
 				{
 					if (InNewChoice.IsValid())
 					{
-						auto HandlerNamePtr = (*Map_Purpose_To_HandlerName_Ptr).Find(PurposeString);
+						TMap<FName, FFunctionHandlerInfo>& HandlerClassDict = UMainMenuGameInstanceConfig::Get()->HandlerClassDict;
+						TMap<FString, FName>& HandlerNameDict = HandlerClassDict[CustomizationHandlerName].
+							Map_Purpose_To_HandlerName;
+						auto HandlerNamePtr = HandlerNameDict.Find(PurposeString);
+						// auto HandlerNamePtr = (*Map_Purpose_To_HandlerName_Ptr).Find(PurposeString);
 						if (HandlerNamePtr == nullptr)
 						{
-							(*Map_Purpose_To_HandlerName_Ptr).Add(PurposeString);
+							HandlerNameDict.Add(PurposeString);
 						}
-						(*Map_Purpose_To_HandlerName_Ptr)[PurposeString] = FName(*InNewChoice);
+						HandlerNameDict[PurposeString] = FName(*InNewChoice);
 					}
 				}
 			)
