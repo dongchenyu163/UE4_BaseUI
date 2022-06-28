@@ -73,14 +73,12 @@ public:
 	
 	virtual void PostReloadConfig(FProperty* PropertyThatWasLoaded) override
 	{
-		TArray<FName> HandlerNameList;
 		HandlerClassDict.GetKeys(HandlerNameList);
 		UReflectionOperations::SetNewOptionsToEnum("EFunctionHandlerNames_BP", HandlerNameList);
 	}
 	
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
 	{
-		TArray<FName> HandlerNameList;
 		HandlerClassDict.GetKeys(HandlerNameList);
 		UReflectionOperations::SetNewOptionsToEnum("EFunctionHandlerNames_BP", HandlerNameList);
 
@@ -163,6 +161,8 @@ public:
 		}
 		return bDependencyIsValid;
 	}
+public:
+	TArray<FName> HandlerNameList;
 public:
 	UPROPERTY(EditAnywhere, Config, BlueprintReadOnly, Category="UI Handler Settings", meta=(DisplayName="Handler use in game", ToolTip="程序中使用FName来查找并引用对应模块"))
 	TMap<FName, FFunctionHandlerInfo> HandlerClassDict;
