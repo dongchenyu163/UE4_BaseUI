@@ -93,102 +93,116 @@ UFunctionHandlerBase* UMainMenuGameInstanceBase::FindHandler_ByName_CPP(FName In
 	}	
 }
 
-UDataTable* UMainMenuGameInstanceBase::GetMapInfoDataTable_Implementation()
-{
-	return GetMapInfoDataTable_CPP();
-}
+// DEP finished
+// UDataTable* UMainMenuGameInstanceBase::GetMapInfoDataTable_Implementation()
+// {
+// 	return GetMapInfoDataTable_CPP();
+// }
 
+// Pragma DEP
 #pragma region GetMapUIInfo & GetMapUIRuntimeInfo
-FMapUIInfo UMainMenuGameInstanceBase::GetMapUIInfo_Implementation(FName InMapIdentifier)
-{
-	auto Res = GetMapUIInfo_CPP(InMapIdentifier);
-	if (Res != nullptr)
-	{
-		return FMapUIInfo(*Res);
-	}
-	else
-	{
-		ensure(false);  // Assert failed, Check [InMapIdentifier] is valid.
-		return FMapUIInfo();
-	}
-}
+// DEP finished
+// FMapUIInfo UMainMenuGameInstanceBase::GetMapUIInfo_Implementation(FName InMapIdentifier)
+// {
+// 	auto Res = GetMapUIInfo_CPP(InMapIdentifier);
+// 	if (Res != nullptr)
+// 	{
+// 		return FMapUIInfo(*Res);
+// 	}
+// 	else
+// 	{
+// 		ensure(false);  // Assert failed, Check [InMapIdentifier] is valid.
+// 		return FMapUIInfo();
+// 	}
+// }
 
-FMapUIRuntimeInfo UMainMenuGameInstanceBase::GetMapUIRuntimeInfo_Implementation(FName InMapIdentifier)
-{
-	auto Res = GetMapUIRuntimeInfo_CPP(InMapIdentifier);
-	if (Res != nullptr)
-	{
-		return FMapUIRuntimeInfo(*Res);
-	}
-	else
-	{
-		ensure(false);  // Assert failed, Check [InMapIdentifier] is valid.
-		return FMapUIRuntimeInfo();
-	}
-}
+// DEP finished
+// FMapUIRuntimeInfo UMainMenuGameInstanceBase::GetMapUIRuntimeInfo_Implementation(FName InMapIdentifier)
+// {
+// 	auto Res = GetMapUIRuntimeInfo_CPP(InMapIdentifier);
+// 	if (Res != nullptr)
+// 	{
+// 		return FMapUIRuntimeInfo(*Res);
+// 	}
+// 	else
+// 	{
+// 		ensure(false);  // Assert failed, Check [InMapIdentifier] is valid.
+// 		return FMapUIRuntimeInfo();
+// 	}
+// }
 
-FMapUIInfo* UMainMenuGameInstanceBase::GetMapUIInfo_CPP(FName InMapIdentifier)
-{
-	if (IsValid(MapInfoDataTable))
-	{
-		FMapUIInfo* InfoPtr = MapInfoDataTable->FindRow<FMapUIInfo>(InMapIdentifier, "GetMapUIInfo_CPP");
-		if (InfoPtr == nullptr)
-		{
-			UE_LOG(LogTemp, Display, TEXT("Function:[%s] MESSAGE"), ANSI_TO_TCHAR(__FUNCTION__));
-		}
-		return InfoPtr;
-	}
-	else
-	{
-		return nullptr;
-	}
-}
+// DEP finished
+// FMapUIInfo* UMainMenuGameInstanceBase::GetMapUIInfo_CPP(FName InMapIdentifier)
+// {
+// 	if (IsValid(MapInfoDataTable))
+// 	{
+// 		FMapUIInfo* InfoPtr = MapInfoDataTable->FindRow<FMapUIInfo>(InMapIdentifier, "GetMapUIInfo_CPP");
+// 		if (InfoPtr == nullptr)
+// 		{
+// 			UE_LOG(LogTemp, Display, TEXT("Function:[%s] MESSAGE"), ANSI_TO_TCHAR(__FUNCTION__));
+// 		}
+// 		return InfoPtr;
+// 	}
+// 	else
+// 	{
+// 		return nullptr;
+// 	}
+// }
 
-FMapUIRuntimeInfo* UMainMenuGameInstanceBase::GetMapUIRuntimeInfo_CPP(FName InMapIdentifier)
-{
-	return Map_MapName_To_MapRuntimeInfo.Find(InMapIdentifier);
-}
+// DEP finished
+// FMapUIRuntimeInfo* UMainMenuGameInstanceBase::GetMapUIRuntimeInfo_CPP(FName InMapIdentifier)
+// {
+// 	return Map_MapName_To_MapRuntimeInfo.Find(InMapIdentifier);
+// }
 
-void UMainMenuGameInstanceBase::UpdateFromUserGlobalData_CPP()
-{
-	UTestUserGlobalSaveGameBaseObj* UserGlobalData = Cast<UTestUserGlobalSaveGameBaseObj>(GetSavableBaseHandler_CPP()->GetUserGlobalData());
-	Map_MapName_To_MapRuntimeInfo = UserGlobalData->UserMapsInfo;
-}
+// DEP finished
+// void UMainMenuGameInstanceBase::UpdateFromUserGlobalData_CPP()
+// {
+// 	UTestUserGlobalSaveGameBaseObj* UserGlobalData = Cast<UTestUserGlobalSaveGameBaseObj>(GetSavableBaseHandler_CPP()->GetUserGlobalData());
+// 	Map_MapName_To_MapRuntimeInfo = UserGlobalData->UserMapsInfo;
+// }
 #pragma endregion GetMapUIInfo & GetMapUIRuntimeInfo
 
+// Pragma DEP
 #pragma region Get & Set PlayingMapUIInfo
-FMapUIInfo* UMainMenuGameInstanceBase::GetPlayingMapUIInfo_CPP()
-{
-	return &PlayingMapInfo;
-}
+// DEP finished
+// FMapUIInfo* UMainMenuGameInstanceBase::GetPlayingMapUIInfo_CPP()
+// {
+// 	return &PlayingMapInfo;
+// }
+//
+// DEP finished
+// void UMainMenuGameInstanceBase::SetPlayingMapUIInfo_CPP(const FMapUIInfo* InNewMapInfo)
+// {
+// 	PlayingMapInfo = *InNewMapInfo;
+// }
+//
+// DEP finished
+// FMapUIInfo UMainMenuGameInstanceBase::GetPlayingMapUIInfo_Implementation()
+// {
+// 	return FMapUIInfo(*GetPlayingMapUIInfo_CPP());
+// }
+//
+// DEP finished
+// void UMainMenuGameInstanceBase::SetPlayingMapUIInfo_Implementation(FMapUIInfo InNewMapInfo)
+// {
+// 	PlayingMapInfo = InNewMapInfo;
+// }
 
-void UMainMenuGameInstanceBase::SetPlayingMapUIInfo_CPP(const FMapUIInfo* InNewMapInfo)
-{
-	PlayingMapInfo = *InNewMapInfo;
-}
-
-FMapUIInfo UMainMenuGameInstanceBase::GetPlayingMapUIInfo_Implementation()
-{
-	return FMapUIInfo(*GetPlayingMapUIInfo_CPP());
-}
-
-void UMainMenuGameInstanceBase::SetPlayingMapUIInfo_Implementation(FMapUIInfo InNewMapInfo)
-{
-	PlayingMapInfo = InNewMapInfo;
-}
-
-FMapUIInfo* UMainMenuGameInstanceBase::FindMapUIInfo_ByUWorld(UWorld* InWorldPtr)
-{
-	// MapInfoDataTable->GetAllRows()
-	auto name = FName(FPaths::GetBaseFilename(InWorldPtr->GetPackage()->FileName.ToString()));
-	auto res = MapInfoDataTable->FindRow<FMapUIInfo>(name, TEXT("FindCurrentWorld"));
-	return (res);
-}
+// DEP finished
+// FMapUIInfo* UMainMenuGameInstanceBase::FindMapUIInfo_ByUWorld(UWorld* InWorldPtr)
+// {
+// 	// MapInfoDataTable->GetAllRows()
+// 	auto name = FName(FPaths::GetBaseFilename(InWorldPtr->GetPackage()->FileName.ToString()));
+// 	auto res = MapInfoDataTable->FindRow<FMapUIInfo>(name, TEXT("FindCurrentWorld"));
+// 	return (res);
+// }
 
 #pragma endregion Get & Set PlayingMapUIInfo
 
 
 
+// DEP
 void UMainMenuGameInstanceBase::ResetWidgetInfo_CPP()
 {
 	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
@@ -205,67 +219,75 @@ void UMainMenuGameInstanceBase::ResetWidgetInfo_CPP()
 	}
 }
 
+// DEP
 void UMainMenuGameInstanceBase::ResetWidgetInfo_Implementation()
 {
 	ResetWidgetInfo_CPP();
 }
 
+// DEP
 void UMainMenuGameInstanceBase::OnStart()
 {
 	Super::OnStart();
+	for(auto PairIt = Map_HandlerName_To_HandlerObj.CreateConstIterator(); PairIt; ++PairIt)
+	{
+		(*PairIt).Value->OnStart();
+	}
+	
 	SavableHandlerObj->Init(SavingBaseHandler, UserManager);
 	OnAnyWorldBeginPlay.AddDynamic(SavableHandlerObj, &USaveBaseHandler::Handle_OnAnyWorldChanged);
 
 	// Reset runtime info for UDA_WidgetInfo Obj.
 	ResetWidgetInfo_CPP();
 
-	if (IsValid(MapInfoDataTable))
-	{
-		TArray<FName> MapInfoNameList = MapInfoDataTable->GetRowNames();
-		for (const FName RowName : MapInfoNameList)
-		{
-			const FMapUIInfo* InfoPtr = MapInfoDataTable->FindRow<FMapUIInfo>(RowName, "Init");
-			FMapUIRuntimeInfo NewRuntimeInfo;
-			NewRuntimeInfo.MapIdentifier = InfoPtr->MapIdentifier;
-			NewRuntimeInfo.bIsPlayable = InfoPtr->bInitialPlayable;
-			Map_MapName_To_MapRuntimeInfo.Add(InfoPtr->MapIdentifier, NewRuntimeInfo);
-		}
-
-		auto World = GetWorld();
-		if (World)
-		{
-			SetPlayingMapUIInfo_CPP(FindMapUIInfo_ByUWorld(World));
-		}
-	}
+	// if (IsValid(MapInfoDataTable))
+	// {
+	// 	TArray<FName> MapInfoNameList = MapInfoDataTable->GetRowNames();
+	// 	for (const FName RowName : MapInfoNameList)
+	// 	{
+	// 		const FMapUIInfo* InfoPtr = MapInfoDataTable->FindRow<FMapUIInfo>(RowName, "Init");
+	// 		FMapUIRuntimeInfo NewRuntimeInfo;
+	// 		NewRuntimeInfo.MapIdentifier = InfoPtr->MapIdentifier;
+	// 		NewRuntimeInfo.bIsPlayable = InfoPtr->bInitialPlayable;
+	// 		Map_MapName_To_MapRuntimeInfo.Add(InfoPtr->MapIdentifier, NewRuntimeInfo);
+	// 	}
+	//
+	// 	auto World = GetWorld();
+	// 	if (World)
+	// 	{
+	// 		SetPlayingMapUIInfo_CPP(FindMapUIInfo_ByUWorld(World));
+	// 	}
+	// }
 }
 
+// DEP
 void UMainMenuGameInstanceBase::OnFirstWorldChanged(UWorld* NewWorld)
 {
 
 }
 
+// DEP
 void UMainMenuGameInstanceBase::OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld)
 {
 	if (NewWorld)  // NewWorld 他妈的居然会为NULL。。。
+	{
+		for(auto PairIt = Map_HandlerName_To_HandlerObj.CreateConstIterator(); PairIt; ++PairIt)
 		{
+			(*PairIt).Value->OnWorldChanged(OldWorld, NewWorld);
+		}
 		if (!NewWorld->OnWorldBeginPlay.IsBoundToObject(this))
 		{
 			NewWorld->OnWorldBeginPlay.AddLambda(
 			   [this, NewWorld]()
 			   {
-					   if (bIsInit)
-					   {
-						   bIsInit = false;
-						   OnFirstWorldChanged(NewWorld);
-					   }
 					  if (OnAnyWorldBeginPlay.IsBound())
 					  {
 						  OnAnyWorldBeginPlay.Broadcast();
 					  }
-				  }
-				  );
+				}
+			);
 		}
-		}
+	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Function:[%s] [NewWorld] is nullptr 呵呵"), ANSI_TO_TCHAR(__FUNCTION__));
