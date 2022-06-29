@@ -44,9 +44,6 @@ public:
 	/**
 	 * 设置项区域
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Config, Category="User Global Data", meta=(DisplayName="User Global Data Class", Tooltip="用户存档"))
-	TSubclassOf<UUserGlobalDataSaveGameObjBase> UserGlobalData_SaveGameObjClass = UUserGlobalDataSaveGameObjBase::StaticClass();
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Config, Category="Misc", meta=(Tooltip="存档缩略图的像素大小"))
 	FVector2D ThumbnailSize = FVector2D(384, 384);
 

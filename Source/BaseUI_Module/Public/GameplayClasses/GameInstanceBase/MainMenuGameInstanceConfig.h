@@ -172,5 +172,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Base Info", meta=(Tooltip="作为主菜单的World资产"))
 	TSoftObjectPtr<UWorld> MainMenuMap;
-	
+
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Base Info")
+	// TSubclassOf<UUser>
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Config, Category="User Global Data", meta=(DisplayName="User Global Data Class", Tooltip="用户存档"))
+	TSubclassOf<UUserGlobalDataSaveGameObjBase> UserGlobalData_SaveGameObjClass = UUserGlobalDataSaveGameObjBase::StaticClass();
 };

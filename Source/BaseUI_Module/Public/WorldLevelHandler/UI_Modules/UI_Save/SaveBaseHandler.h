@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayClasses/GameInstanceBase/MainMenuGameInstanceConfig.h"
 #include "LowLevelHandler/SaveLoad/ClassAndStructs/SaveGameObjBase.h"
 #include "WorldLevelHandler/UI_Modules/BaseHandler/UIHandlerBase.h"
 #include "Interfaces/I_UI_Savable.h"
@@ -119,7 +120,7 @@ protected:
 
 	// Config：描述用户的存档类，一个游戏应该只有一种。
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Save Object Class", meta=(DisplayName="User Global Data Class", Tooltip="用户存档"))
-	TSubclassOf<UUserGlobalDataSaveGameObjBase> UserGlobalData_SaveGameObjClass = UUISaveLoadSystemConfig::Get()->UserGlobalData_SaveGameObjClass;
+	TSubclassOf<UUserGlobalDataSaveGameObjBase> UserGlobalData_SaveGameObjClass = UMainMenuGameInstanceConfig::Get()->UserGlobalData_SaveGameObjClass;
 
 	UPROPERTY(BlueprintReadWrite, Category="Save Object", meta=(DisplayName="", Tooltip=""))
 	UUserGlobalDataSaveGameObjBase* UserGlobalData_SaveGameObj;
