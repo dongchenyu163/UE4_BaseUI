@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MapInfo.h"
 #include "SaveGameObjBase.h"
 #include "UObject/Object.h"
 #include "UserGlobalDataSaveGameObjBase.generated.h"
@@ -22,7 +23,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="", meta=(ToolTip="子类实现，切换用户时候会清除原来的用户进度"))
 	void DoClearUserGlobalData();
 
-// protected:
-// 	UPROPERTY(SaveGame)
-// 	int32 CurrentSlotNum;
+	UPROPERTY(EditAnywhere, SaveGame, BlueprintReadWrite, Category="Save|UserGlobalData", meta=(ToolTip="记录地图的解锁情况"))
+	TMap<FName, FMapInfo_User> UserMapsRuntimeInfo;
+	
 };
