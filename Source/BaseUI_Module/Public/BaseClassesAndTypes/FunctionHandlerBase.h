@@ -46,7 +46,11 @@ public:
 	/**
 	 * @brief 由GameInstance 在创建完成本Handler的依赖Handler对象后，进行调用，并传入依赖的
 	 */
-	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict);
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
+	{
+		checkf(GameInstancePtr!=nullptr, TEXT("Gameinstance CANNOT be nullptr!!"));
+		GameInstancePtr = InGameInstancePtr;
+	}
 
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) {}
 	/**
