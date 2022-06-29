@@ -57,9 +57,7 @@ void UMainMenuGameInstanceBase::InitHandlers(II_GI_MenuFramework* InGameInstance
 		{
 			DependentHandlerDict.Add(DependentHandlerName, InCreatedHandlerDict[DependentHandlerName]);
 		}
-		// InHandlerClassDict[Pair.Key].Map_Purpose_To_HandlerName
 		InCreatedHandlerDict[Pair.Key]->InitHandler(InGameInstance, DependentHandlerDict);
-		// InCreatedHandlerDict[Pair.Key]->
 	}
 }
 
