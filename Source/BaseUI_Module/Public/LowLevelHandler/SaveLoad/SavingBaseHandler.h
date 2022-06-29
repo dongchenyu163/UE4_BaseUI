@@ -23,8 +23,8 @@ class BASEUI_MODULE_API USavingBaseHandler : public ULowLevelFunctionHandlerBase
 	GENERATED_BODY()
 
 public:
-	const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
-	const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
+	// const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
+	// const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
 	const static FFunctionHandlerDef HandlerDef;
 
 protected:
@@ -32,7 +32,7 @@ protected:
 
 #pragma region 从ULowLevelFunctionHandlerBase继承
 public:
-	virtual FName GetHandlerFName() override { return FName("LowLevelSaveHandler"); }
+	// virtual FName GetHandlerFName() override { return FName("LowLevelSaveHandler"); }
 	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
