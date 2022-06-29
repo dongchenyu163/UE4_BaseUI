@@ -235,7 +235,7 @@ void UMainMenuGameInstanceBase::OnStart()
 	}
 	
 	SavableHandlerObj->Init(SavingBaseHandler, UserManager);
-	OnAnyWorldBeginPlay.AddDynamic(SavableHandlerObj, &USaveBaseHandler::Handle_OnAnyWorldChanged);
+	// OnAnyWorldBeginPlay.AddDynamic(SavableHandlerObj, &USaveBaseHandler::Handle_OnAnyWorldChanged);
 
 	// Reset runtime info for UDA_WidgetInfo Obj.
 	ResetWidgetInfo_CPP();
@@ -278,12 +278,12 @@ void UMainMenuGameInstanceBase::OnWorldChanged(UWorld* OldWorld, UWorld* NewWorl
 		if (!NewWorld->OnWorldBeginPlay.IsBoundToObject(this))
 		{
 			NewWorld->OnWorldBeginPlay.AddLambda(
-			   [this, NewWorld]()
-			   {
-					  if (OnAnyWorldBeginPlay.IsBound())
-					  {
-						  OnAnyWorldBeginPlay.Broadcast();
-					  }
+				[this]()
+				{
+					for(auto PairIt = Map_HandlerName_To_HandlerObj.CreateConstIterator(); PairIt; ++PairIt)
+					{
+						(*PairIt).Value->OnNewWorldBeginPlay();
+					}
 				}
 			);
 		}
