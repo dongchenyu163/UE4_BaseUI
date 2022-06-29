@@ -66,7 +66,7 @@ public:
 	{
 		Out_Map_Purpose_To_DependenceHandlerClass = Map_Purpose_To_DependenceHandlerClass;
 	}
-protected:
+
 	/**
 	 * @brief 游戏本身开始的时候被调用；转发GameInstance的同名函数给子类。
 	 */
