@@ -220,10 +220,10 @@ void UMainMenuGameInstanceBase::ResetWidgetInfo_CPP()
 }
 
 // DEP
-void UMainMenuGameInstanceBase::ResetWidgetInfo_Implementation()
-{
-	ResetWidgetInfo_CPP();
-}
+// void UMainMenuGameInstanceBase::ResetWidgetInfo_Implementation()
+// {
+// 	ResetWidgetInfo_CPP();
+// }
 
 // DEP
 void UMainMenuGameInstanceBase::OnStart()
@@ -234,7 +234,7 @@ void UMainMenuGameInstanceBase::OnStart()
 		(*PairIt).Value->OnStart();
 	}
 	
-	SavableHandlerObj->Init(SavingBaseHandler, UserManager);
+	// SavableHandlerObj->Init(SavingBaseHandler, UserManager);
 	// OnAnyWorldBeginPlay.AddDynamic(SavableHandlerObj, &USaveBaseHandler::Handle_OnAnyWorldChanged);
 
 	// Reset runtime info for UDA_WidgetInfo Obj.
@@ -258,12 +258,6 @@ void UMainMenuGameInstanceBase::OnStart()
 	// 		SetPlayingMapUIInfo_CPP(FindMapUIInfo_ByUWorld(World));
 	// 	}
 	// }
-}
-
-// DEP
-void UMainMenuGameInstanceBase::OnFirstWorldChanged(UWorld* NewWorld)
-{
-
 }
 
 // DEP

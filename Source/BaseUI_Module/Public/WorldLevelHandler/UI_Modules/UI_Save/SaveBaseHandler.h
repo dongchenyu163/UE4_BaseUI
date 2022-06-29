@@ -46,6 +46,11 @@ public:
 	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
 	virtual void AssignDependentHandlerPtr() override;
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr,
+		TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict) override;
+	virtual void OnStart() override;
+	virtual void OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld) override;
+	virtual void OnNewWorldBeginPlay() override;
 
 	virtual void SaveGame_CPP(int32 InSlotNum) override;
 	virtual void SaveGame_Auto_CPP() override;

@@ -52,7 +52,6 @@ public:
 	// virtual void ResetWidgetInfo_Implementation() override;
 protected:
 	virtual void OnStart() override;
-	virtual void OnFirstWorldChanged(UWorld* NewWorld);
 public:
 	virtual void OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld) override;
 	// virtual FOnAnyWorldBeginPlay* GetOnAnyWorldBeginPlayDelegate_CPP() override { return &OnAnyWorldBeginPlay; }

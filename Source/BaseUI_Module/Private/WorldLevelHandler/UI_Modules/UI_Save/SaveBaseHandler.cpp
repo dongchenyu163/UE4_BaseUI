@@ -54,6 +54,38 @@ void USaveBaseHandler::AssignDependentHandlerPtr()
 	UserManagerPtr = dynamic_cast<II_UserManager*>(Map_Purpose_To_HandlerInstance["UserManager"]);
 }
 
+void USaveBaseHandler::InitHandler(II_GI_MenuFramework* InGameInstancePtr,
+	TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
+{
+	Super::InitHandler(InGameInstancePtr, InDependencyHandlerDict);
+}
+
+void USaveBaseHandler::OnStart()
+{
+	Super::OnStart();
+
+	SavingHandlePtr->GetGameLoadFinishDelegate_CPP()->AddUObject(this, &USaveBaseHandler::Handle_AsyncLoadComplete);
+	SavingHandlePtr->GetGameSaveFinishDelegate_CPP()->AddUObject(this, &USaveBaseHandler::Handle_AsyncSaveComplete);
+	
+	if (SavingHandlePtr->CanSave_CPP() == ECannotSaveReason::CanSave)
+	{
+		LoadUserGlobalData_CPP();
+	}
+	
+	UserManagerPtr->GetOnUserChangedDelegate_CPP()->BindDynamic(this, &USaveBaseHandler::Handle_OnUserChanged);
+}
+
+void USaveBaseHandler::OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld)
+{
+	Super::OnWorldChanged(OldWorld, NewWorld);
+}
+
+void USaveBaseHandler::OnNewWorldBeginPlay()
+{
+	Super::OnNewWorldBeginPlay();
+	Handle_OnAnyWorldChanged();
+}
+
 void USaveBaseHandler::SaveUserGlobalData_CPP()
 {
 #if WITH_EDITOR
