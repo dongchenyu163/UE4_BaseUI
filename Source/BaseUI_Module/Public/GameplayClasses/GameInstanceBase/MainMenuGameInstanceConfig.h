@@ -170,5 +170,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Base Info")
 	UDataTable* DT_MapInfo;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Base Info", meta=(Tooltip="作为主菜单的World资产"))
+	TSoftObjectPtr<UWorld> MainMenuMap;
 	
 };
