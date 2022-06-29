@@ -203,21 +203,21 @@ UFunctionHandlerBase* UMainMenuGameInstanceBase::FindHandler_ByName_CPP(FName In
 
 
 // DEP
-void UMainMenuGameInstanceBase::ResetWidgetInfo_CPP()
-{
-	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
-	TArray<FAssetData> AssetDataList;
-	FARFilter Filter;
-	Filter.bRecursivePaths = true;
-	Filter.ClassNames.Add(*UDA_WidgetInfo::StaticClass()->GetName());
-	Filter.PackagePaths.Add("/Game/");
-	AssetRegistryModule.Get().GetAssets(Filter, AssetDataList);
-	for (FAssetData AssetData : AssetDataList)
-	{
-		auto WidgetInfoObj = Cast<UDA_WidgetInfo>(AssetData.GetAsset());
-		WidgetInfoObj->WidgetRef = nullptr;
-	}
-}
+// void UMainMenuGameInstanceBase::ResetWidgetInfo_CPP()
+// {
+// 	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+// 	TArray<FAssetData> AssetDataList;
+// 	FARFilter Filter;
+// 	Filter.bRecursivePaths = true;
+// 	Filter.ClassNames.Add(*UDA_WidgetInfo::StaticClass()->GetName());
+// 	Filter.PackagePaths.Add("/Game/");
+// 	AssetRegistryModule.Get().GetAssets(Filter, AssetDataList);
+// 	for (FAssetData AssetData : AssetDataList)
+// 	{
+// 		auto WidgetInfoObj = Cast<UDA_WidgetInfo>(AssetData.GetAsset());
+// 		WidgetInfoObj->WidgetRef = nullptr;
+// 	}
+// }
 
 // DEP
 // void UMainMenuGameInstanceBase::ResetWidgetInfo_Implementation()
@@ -238,7 +238,7 @@ void UMainMenuGameInstanceBase::OnStart()
 	// OnAnyWorldBeginPlay.AddDynamic(SavableHandlerObj, &USaveBaseHandler::Handle_OnAnyWorldChanged);
 
 	// Reset runtime info for UDA_WidgetInfo Obj.
-	ResetWidgetInfo_CPP();
+	// ResetWidgetInfo_CPP();
 
 	// if (IsValid(MapInfoDataTable))
 	// {

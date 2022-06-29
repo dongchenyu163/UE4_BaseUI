@@ -51,9 +51,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category="MenuFramework|WorldLevelHandler|MapInfo")
 	void SetMapRuntimeInfo(FName InMapIdentifier, FMapInfo_User InNewMapInfo) { SetMapRuntimeInfo_CPP(InMapIdentifier, InNewMapInfo); }
 	void SetMapRuntimeInfo_CPP(FName InMapIdentifier, const FMapInfo_User& InNewMapInfo) const { SaveHandlePtr->GetUserGlobalData()->UserMapsRuntimeInfo[InMapIdentifier] = InNewMapInfo; }
-
-	// UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="MenuFramework|WorldLevelHandler|MapInfo", meta=(ToolTip="重置UDA_WidgetInfo中的WidgetRef变量，切换地图的时候该变量会被置空"))
-	// void ResetWidgetInfo();
 	
 public:
 	FMapInfo* FindMapUIInfo_ByUWorld(UWorld* InWorldPtr);
