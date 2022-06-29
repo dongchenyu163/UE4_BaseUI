@@ -5,11 +5,12 @@ public class BaseUI_K2Nodes : ModuleRules
     public BaseUI_K2Nodes(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		OptimizeCode = CodeOptimization.Never;
 
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core",
+                "Core", "UnrealEd",
             }
         );
 
@@ -19,7 +20,12 @@ public class BaseUI_K2Nodes : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "BaseUI_Module",
+                "KismetCompiler",
+                "UnrealEd",
+                "BlueprintGraph",
+                "GraphEditor",
             }
         );
     }
