@@ -9,6 +9,9 @@
 #include "WorldLevelHandler/UI_Modules/UI_Save/Interfaces/I_CustomSave.h"
 #include "Misc/OutputDeviceNull.h"
 #include "LowLevelHandler/SaveLoad/MultiUserSaveSystem/DongSaveSystemStatic.h"
+#include "WorldLevelHandler/NormalHandlers/MapsInfoHandler/MapsInfoHandler.h"
+#include "WorldLevelHandler/NormalHandlers/WidgetHandler/WidgetHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
 
 // const TMap<FString, UClass*> USaveBaseHandler::Map_Purpose_To_DependenceHandlerClass = {
 // 	TPair<FString, UClass*>("LowLevelSaveHandler", USavingBaseHandler::StaticClass()),
