@@ -23,16 +23,11 @@ const FFunctionHandlerDef USaveBaseHandler::HandlerDef(USaveBaseHandler::StaticC
 		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
 	HandlerDependentPair("UserManager", new FFunctionHandlerDependent(UUserManagerBase::StaticClass(),
 		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+   HandlerDependentPair("MapsInfoHandler", new FFunctionHandlerDependent(UMapsInfoHandler::StaticClass(),
+		NSLOCTEXT("UMapSelectionBaseHandler", "MapsInfoHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+   HandlerDependentPair("WidgetHandler", new FFunctionHandlerDependent(UWidgetHandler::StaticClass(),
+		NSLOCTEXT("UMapSelectionBaseHandler", "WidgetHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
 });
-
-TSet<UClass*> USaveBaseHandler::GetDependenceHandlerInterfaceCollection()
-{
-	static const TSet<UClass*> DependenceHandlerClassCollection = {
-		UI_Save::StaticClass(),
-		UI_UserManager::StaticClass()
-	};
-	return DependenceHandlerClassCollection;
-}
 
 void USaveBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
 {
@@ -45,6 +40,8 @@ void USaveBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* Mat
 	{
 		UserManagerPtr = dynamic_cast<II_UserManager*>(MatchedObjectPtr);
 	}
+	MapsInfoHandler = dynamic_cast<UMapsInfoHandler*>(Map_Purpose_To_HandlerInstance["MapsInfoHandler"]);
+	WidgetHandler = dynamic_cast<UWidgetHandler*>(Map_Purpose_To_HandlerInstance["WidgetHandler"]);
 }
 
 void USaveBaseHandler::AssignDependentHandlerPtr()

@@ -6,6 +6,20 @@
 #include "Kismet/GameplayStatics.h"
 
 
+const FFunctionHandlerDef UMapSelectionBaseHandler::HandlerDef(StaticClass(), {
+   HandlerDependentPair("MapsInfoHandler", new FFunctionHandlerDependent(UMapsInfoHandler::StaticClass(),
+		NSLOCTEXT("UMapSelectionBaseHandler", "MapsInfoHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+   HandlerDependentPair("WidgetHandler", new FFunctionHandlerDependent(UWidgetHandler::StaticClass(),
+		NSLOCTEXT("UMapSelectionBaseHandler", "WidgetHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+});
+
+void UMapSelectionBaseHandler::AssignDependentHandlerPtr()
+{
+	Super::AssignDependentHandlerPtr();
+	MapsInfoHandler = dynamic_cast<UMapsInfoHandler*>(Map_Purpose_To_HandlerInstance["MapsInfoHandler"]);
+	WidgetHandler = dynamic_cast<UWidgetHandler*>(Map_Purpose_To_HandlerInstance["WidgetHandler"]);
+}
+
 TArray<FName> UMapSelectionBaseHandler::GetMapIDList_Implementation(UDataTable* InMapInfoDataTable)
 {
 	TArray<FName> RetNameList;
@@ -46,8 +60,8 @@ void UMapSelectionBaseHandler::LoadMap_CPP(const FMapUIInfo* InMapInfo)
 	if (!InMapInfo->MapObject.IsNull())
 	{
 		UGameplayStatics::OpenLevel(this, FName(InMapInfo->MapObject.GetLongPackageName()));
-		GetFrameworkGameInstance_CPP()->ResetWidgetInfo_CPP();
-		GetFrameworkGameInstance_CPP()->SetPlayingMapUIInfo_CPP(InMapInfo);
+		WidgetHandler->ResetWidgetInfo();
+		MapsInfoHandler->SetPlayingMapInfo(InMapInfo);
 	}
 	else
 	{

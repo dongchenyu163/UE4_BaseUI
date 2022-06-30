@@ -7,6 +7,7 @@
 #include "Components/Widget.h"
 #include "Interfaces/I_UI_ResumeMenu.h"
 #include "UObject/Object.h"
+#include "WorldLevelHandler/NormalHandlers/MapsInfoHandler/MapsInfoHandler.h"
 #include "ResumeMenuBaseHandler.generated.h"
 
 /**
@@ -22,6 +23,7 @@ public:
 protected:
 	virtual ~UResumeMenuBaseHandler() override {}
 public:
+	void AssignDependentHandlerPtr();
 	virtual void ResumeGame_Implementation(UWidget* InControlledWidget) override;
 	virtual void ExitToMainMenu_Implementation() override;
 	virtual void ExitToDesktop_Implementation() override;
@@ -37,4 +39,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="ResumeMenu", meta=(Tooltip="被控制的本体"))
 	UWidget* ControlledResumeMenu = nullptr;
 
+	UPROPERTY()
+	UMapsInfoHandler* MapsInfoHandler;
+
+public:
+	static const FFunctionHandlerDef HandlerDef;
 };

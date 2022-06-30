@@ -6,16 +6,19 @@
 #include "WorldLevelHandler/UI_Modules/UI_Save/SaveBaseHandler.h"
 
 
-const FFunctionHandlerDef USaveBaseHandler::HandlerDef(USaveBaseHandler::StaticClass(), {
+const FFunctionHandlerDef UMapsInfoHandler::HandlerDef(UMapsInfoHandler::StaticClass(), {
+   HandlerDependentPair("SaveHandler", new FFunctionHandlerDependent(USaveBaseHandler::StaticClass(),
+		NSLOCTEXT("UMapsInfoHandler", "SaveHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
    HandlerDependentPair("LowLevelSaveHandler", new FFunctionHandlerDependent(USavingBaseHandler::StaticClass(),
-        NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+        NSLOCTEXT("UMapsInfoHandler", "LowLevelSaveHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
    HandlerDependentPair("UserManager", new FFunctionHandlerDependent(UUserManagerBase::StaticClass(),
-        NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+        NSLOCTEXT("UMapsInfoHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
 });
 
 void UMapsInfoHandler::AssignDependentHandlerPtr()
 {
 	Super::AssignDependentHandlerPtr();
+	SaveHandlePtr = dynamic_cast<II_UI_Savable*>(Map_Purpose_To_HandlerInstance["SaveHandler"]);
 	LowLevelSavingHandlePtr = dynamic_cast<II_Save*>(Map_Purpose_To_HandlerInstance["LowLevelSaveHandler"]);
 	UserManagerPtr = dynamic_cast<II_UserManager*>(Map_Purpose_To_HandlerInstance["UserManager"]);
 }

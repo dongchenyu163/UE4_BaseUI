@@ -122,6 +122,12 @@ public:
 protected:
 	II_Save* SavingHandlePtr;
 	II_UserManager* UserManagerPtr;
+	
+	UPROPERTY()
+	UMapsInfoHandler* MapsInfoHandler;
+	
+	UPROPERTY()
+	UWidgetHandler* WidgetHandler;
 
 	// Config：描述用户的存档类，一个游戏应该只有一种。
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Save Object Class", meta=(DisplayName="User Global Data Class", Tooltip="用户存档"))

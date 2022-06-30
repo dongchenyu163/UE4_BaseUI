@@ -6,6 +6,8 @@
 #include "WorldLevelHandler/UI_Modules/BaseHandler/UIHandlerBase.h"
 #include "Interfaces/I_UI_NextLevel.h"
 #include "UObject/Object.h"
+#include "WorldLevelHandler/NormalHandlers/MapsInfoHandler/MapsInfoHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
 #include "NextLevelBaseHandler.generated.h"
 
 /**
@@ -17,8 +19,19 @@ class BASEUI_MODULE_API UNextLevelBaseHandler : public UUIHandlerBase, public II
 	GENERATED_BODY()
 
 public:
+	void AssignDependentHandlerPtr();
 	virtual bool HasNextLevel_Implementation() override;
 	virtual void LoadNextLevel_Implementation() override;
 	virtual bool HasNextLevel_CPP() override;
 	virtual void LoadNextLevel_CPP() override;
+
+protected:
+	UPROPERTY()
+	UMapsInfoHandler* MapsInfoHandler;
+
+	UPROPERTY()
+	UMapSelectionBaseHandler* MapSelectionHandler;
+
+public:
+	static const FFunctionHandlerDef HandlerDef;
 };
