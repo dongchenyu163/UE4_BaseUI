@@ -5,13 +5,7 @@
 #include "CoreMinimal.h"
 #include "ClassesAndStructs/FFunctionHandlerClassCustomizer.h"
 #include "ClassesAndStructs/FunctionHandlerInfo.h"
-#include "WorldLevelHandler/UI_Modules/BaseHandler/UIHandlerBase.h"
 #include "UObject/Object.h"
-#include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
-#include "WorldLevelHandler/UI_Modules/UI_NextLevel/NextLevelBaseHandler.h"
-#include "WorldLevelHandler/UI_Modules/UI_ResumeMenu/ResumeMenuBaseHandler.h"
-#include "WorldLevelHandler/UI_Modules/UI_Save/SaveBaseHandler.h"
-#include "WorldLevelHandler/UI_Modules/UI_SinglePlayerMenu/SinglePlayerMenuBaseHandler.h"
 #include "MainMenuGameInstanceConfig.generated.h"
 
 /**
@@ -33,44 +27,8 @@ public:
 	// Setting的左侧栏的悬停提示文字
 	virtual FText GetSectionDescription() const override { return NSLOCTEXT("MainMenuGameInstanceConfig", "SectionDescriptionText", "配置GameInstance"); }
 
-	UMainMenuGameInstanceConfig()
-		: Super()
-	{
-		// UI Handlers
-		HandlerClassDict.Add(FName("MapSelector"), FFunctionHandlerInfo(UMapSelectionBaseHandler::StaticClass()));
-		HandlerClassDict.Add(FName("NextLevelHandler"), FFunctionHandlerInfo(UNextLevelBaseHandler::StaticClass()));
-		HandlerClassDict.Add(FName("ResumeMenuHandle"), FFunctionHandlerInfo(UResumeMenuBaseHandler::StaticClass()));
-		HandlerClassDict.Add(FName("SaveHandler"),
-			// FFunctionHandlerInfo(USaveBaseHandler::StaticClass(), (TMap<FString, UClass*>*)&USaveBaseHandler::Map_Purpose_To_DependenceHandlerClass,
-			FFunctionHandlerInfo(USaveBaseHandler::StaticClass(),
-			TMap<FString, FName>({
-				TPair<FString, FName>("LowLevelSaveHandler", "LowLevelSaveHandler"),
-				TPair<FString, FName>("UserManager", "UserManager"),
-			})
-			));
-		HandlerClassDict.Add(FName("SinglePlayerMenuHandle"),
-			// FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass(), (TMap<FString, UClass*>*)&USinglePlayerMenuBaseHandler::Map_Purpose_To_DependenceHandlerClass,
-			FFunctionHandlerInfo(USinglePlayerMenuBaseHandler::StaticClass(),
-			TMap<FString, FName>({
-				TPair<FString, FName>("MapSelector", "MapSelector"),
-				TPair<FString, FName>("SaveHandler", "SaveHandler"),
-			})
-			));
-		// Low level Handlers
-		HandlerClassDict.Add(FName("LowLevelSaveHandler"),
-			FFunctionHandlerInfo(USavingBaseHandler::StaticClass(),
-				TMap<FString, FName>(
-					{
-					TPair<FString, FName>("UserManager", "UserManager"),
-					}
-				)
-			)
-		);
-		HandlerClassDict.Add(FName("UserManager"), FFunctionHandlerInfo(UUserManagerBase::StaticClass()));
-		// UNextLevelBaseHandler::Map_Purpose_To_DependenceHandlerClass;
-		ReloadConfig();
-	}
-	
+	UMainMenuGameInstanceConfig();
+
 	virtual void PostReloadConfig(FProperty* PropertyThatWasLoaded) override
 	{
 		HandlerClassDict.GetKeys(HandlerNameList);
