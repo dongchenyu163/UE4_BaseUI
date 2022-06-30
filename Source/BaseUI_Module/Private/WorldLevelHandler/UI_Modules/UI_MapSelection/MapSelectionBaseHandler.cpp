@@ -26,42 +26,42 @@ TArray<FName> UMapSelectionBaseHandler::GetMapIDList_Implementation(UDataTable* 
 	if (IsValid(InMapInfoDataTable))
 	{
 		TArray<FName> RowNameList = InMapInfoDataTable->GetRowNames();
-		for (FName RowName : RowNameList)
+		for (const FName RowName : RowNameList)
 		{
-			FMapUIInfo* MapUIInfo = InMapInfoDataTable->FindRow<FMapUIInfo>(RowName, __FUNCTION__);
+			const FMapUIInfo* MapUIInfo = InMapInfoDataTable->FindRow<FMapUIInfo>(RowName, __FUNCTION__);
 			RetNameList.Add(MapUIInfo->MapIdentifier);
 		}
 	}
 	return RetNameList;
 }
 
-TArray<FMapUIInfo> UMapSelectionBaseHandler::GetMapInfoList_Copy_Implementation(UDataTable* InMapInfoDataTable)
+TArray<FMapInfo> UMapSelectionBaseHandler::GetMapInfoList_Implementation(UDataTable* InMapInfoDataTable)
 {
-	TArray<FMapUIInfo> RetInfoPtrList;
+	TArray<FMapInfo> RetInfoPtrList;
 	if (IsValid(InMapInfoDataTable))
 	{
 		TArray<FName> RowNameList = InMapInfoDataTable->GetRowNames();
-		for (FName RowName : RowNameList)
+		for (const FName RowName : RowNameList)
 		{
-			FMapUIInfo* MapUIInfo = InMapInfoDataTable->FindRow<FMapUIInfo>(RowName, __FUNCTION__);
+			const FMapInfo* MapUIInfo = InMapInfoDataTable->FindRow<FMapInfo>(RowName, __FUNCTION__);
 			RetInfoPtrList.Add(*MapUIInfo);
 		}
 	}
 	return RetInfoPtrList;
 }
 
-void UMapSelectionBaseHandler::LoadMap_Implementation(FMapUIInfo InMapInfo)
+void UMapSelectionBaseHandler::LoadMap_Implementation(FMapInfo InMapInfo)
 {
 	this->LoadMap_CPP(&InMapInfo);
 }
 
-void UMapSelectionBaseHandler::LoadMap_CPP(const FMapUIInfo* InMapInfo)
+void UMapSelectionBaseHandler::LoadMap_CPP(const FMapInfo* InMapInfo)
 {
 	if (!InMapInfo->MapObject.IsNull())
 	{
 		UGameplayStatics::OpenLevel(this, FName(InMapInfo->MapObject.GetLongPackageName()));
 		WidgetHandler->ResetWidgetInfo();
-		MapsInfoHandler->SetPlayingMapInfo(InMapInfo);
+		MapsInfoHandler->SetPlayingMapInfo_CPP(*InMapInfo);
 	}
 	else
 	{

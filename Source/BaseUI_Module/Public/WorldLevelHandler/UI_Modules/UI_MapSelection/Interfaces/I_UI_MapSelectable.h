@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Engine/DataTable.h"
+#include "LowLevelHandler/SaveLoad/ClassAndStructs/MapInfo.h"
 #include "UObject/Interface.h"
 #include "I_UI_MapSelectable.generated.h"
 
@@ -94,13 +95,13 @@ public:
 	virtual TArray<FName> GetMapIDList_CPP(UDataTable* InMapInfoDataTable) { return Execute_GetMapIDList((UObject*)this, InMapInfoDataTable); }
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="MapSelection", meta=(ToolTip="蓝图用，获取MapUIInfo的一份拷贝，因为蓝图没法传递普通C++指针"))
-	TArray<FMapUIInfo> GetMapInfoList_Copy(UDataTable* InMapInfoDataTable);
+	TArray<FMapInfo> GetMapInfoList(UDataTable* InMapInfoDataTable);
 	// C++专用，可以直接读取DataTable的内存。
-	virtual TArray<FMapUIInfo*> GetMapInfoList_CPP(UDataTable* InMapInfoDataTable);
+	virtual TArray<FMapInfo*> GetMapInfoList_CPP(UDataTable* InMapInfoDataTable);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="MapSelection")
-	void LoadMap(FMapUIInfo InMapInfo);
-	virtual void LoadMap_CPP(const FMapUIInfo* InMapInfo) = 0;
+	void LoadMap(FMapInfo InMapInfo);
+	virtual void LoadMap_CPP(const FMapInfo* InMapInfo) = 0;
 
 	// UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="MapSelection", meta=(Tooltip=""))
 	// void LoadMap_ByID(FName InMapID);

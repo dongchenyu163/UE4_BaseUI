@@ -23,7 +23,7 @@ TArray<FMapUIInfo> UMapSelectionWidget::GetMapInfoList_Copy_Implementation(UData
 	return TArray<FMapUIInfo>();
 }
 
-void UMapSelectionWidget::LoadMap_CPP(const FMapUIInfo* InMapInfo)
+void UMapSelectionWidget::LoadMap_CPP(const FMapInfo* InMapInfo)
 {
 	II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
 	if (MainMenuGameInstance)

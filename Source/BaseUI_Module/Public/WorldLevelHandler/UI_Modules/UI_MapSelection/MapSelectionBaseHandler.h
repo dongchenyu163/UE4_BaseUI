@@ -25,9 +25,9 @@ protected:
 	virtual ~UMapSelectionBaseHandler() override {}
 public:
 	virtual TArray<FName> GetMapIDList_Implementation(UDataTable* InMapInfoDataTable) override;
-	virtual TArray<FMapUIInfo> GetMapInfoList_Copy_Implementation(UDataTable* InMapInfoDataTable) override;
-	virtual void LoadMap_Implementation(FMapUIInfo InMapInfo) override;
-	virtual void LoadMap_CPP(const FMapUIInfo* InMapInfo) override;
+	virtual TArray<FMapInfo> GetMapInfoList_Implementation(UDataTable* InMapInfoDataTable) override;
+	virtual void LoadMap_Implementation(FMapInfo InMapInfo) override;
+	virtual void LoadMap_CPP(const FMapInfo* InMapInfo) override;
 
 protected:
 	UPROPERTY()

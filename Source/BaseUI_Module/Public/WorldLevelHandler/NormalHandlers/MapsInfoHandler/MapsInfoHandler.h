@@ -45,7 +45,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="MenuFramework|WorldLevelHandler|MapInfo")
 	void SetPlayingMapInfo(FMapInfo InNewMapInfo) { PlayingMapInfo = InNewMapInfo; }
-	
+	void SetPlayingMapInfo_CPP(const FMapInfo& InNewMapInfo) { PlayingMapInfo = InNewMapInfo; }
+
 	UFUNCTION(BlueprintCallable, Category="MenuFramework|WorldLevelHandler|MapInfo")
 	FMapInfo_User GetMapRuntimeInfo(FName InMapIdentifier) { return *GetMapRuntimeInfo_CPP(InMapIdentifier); }
 	FMapInfo_User* GetMapRuntimeInfo_CPP(FName InMapIdentifier) { return &SaveHandlePtr->GetUserGlobalData()->UserMapsRuntimeInfo[InMapIdentifier]; }
