@@ -29,6 +29,7 @@ using HandlerDependentPair = TPair<FString, TSharedPtr<FFunctionHandlerDependent
 class BASEUI_MODULE_API FFunctionHandlerDef : public TSharedFromThis<FFunctionHandlerDef>
 {
 public:
+	FFunctionHandlerDef() { HandlerClass =nullptr; }
 	FFunctionHandlerDef(UClass* InHandlerClass)
 		: HandlerClass(InHandlerClass)
 	{

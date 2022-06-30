@@ -6,8 +6,7 @@
 #include "GameplayClasses/GameInstanceBase/MainMenuGameInstanceConfig.h"
 
 
-// const TMap<FString, UClass*> UFunctionHandlerBase::Map_Purpose_To_DependenceHandlerClass;
-// const TMap<FString, FText> UFunctionHandlerBase::Map_Purpose_To_PurposeTooltip;
+const FFunctionHandlerDef UFunctionHandlerBase::HandlerDef = FFunctionHandlerDef();
 
 void UFunctionHandlerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr,
 	TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)

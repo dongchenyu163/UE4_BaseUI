@@ -104,7 +104,5 @@ protected:
 	TMap<FString, UFunctionHandlerBase*> Map_Purpose_To_HandlerInstance;
 
 public:
-	// const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
-	// const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
 	const static FFunctionHandlerDef HandlerDef;
 };
