@@ -9,25 +9,10 @@
 #include "LowLevelHandler/SaveLoad/SaveLoadSystemGlobals.h"
 #include "LowLevelHandler/SaveLoad/MultiUserSaveSystem/DongSaveSystemStatic.h"
 
-// const TMap<FString, UClass*> USavingBaseHandler::Map_Purpose_To_DependenceHandlerClass = {
-// 	TPair<FString, UClass*>("UserManager", UUserManagerBase::StaticClass()),
-// };
-// const TMap<FString, FText> USavingBaseHandler::Map_Purpose_To_PurposeTooltip = {
-// 	TPair<FString, FText>("UserManager", NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))
-// };
-
 const FFunctionHandlerDef USavingBaseHandler::HandlerDef(USavingBaseHandler::StaticClass(), {
 	HandlerDependentPair("UserManager", new FFunctionHandlerDependent(UUserManagerBase::StaticClass(),
 		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。")))
 });
-
-// TSet<UClass*> USavingBaseHandler::GetDependenceHandlerInterfaceCollection()
-// {
-// 	static const TSet<UClass*> DependenceHandlerClassCollection = {
-// 		UI_UserManager::StaticClass()
-// 	};
-// 	return DependenceHandlerClassCollection;
-// }
 
 void USavingBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
 {
@@ -47,23 +32,6 @@ void USavingBaseHandler::AssignDependentHandlerPtr()
 void USavingBaseHandler::InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict)
 {
 	Super::InitHandler(InGameInstancePtr, InDependencyHandlerDict);
-	// InGameInstancePtr->FindHandler
-// 	UserManagerObj = InUserManagerObj;
-//
-// 	if (IsValid(InUserManagerObj))
-// 	{
-// 		UserManagerPtr = static_cast<II_UserManager*>(UserManagerObj.GetInterface());
-// 		USaveLoadSystemConfig::SetUserManagerInstance(UserManagerPtr);
-// 	}
-// 	else
-// 	{
-// 		UE_LOG(LogTemp, Error, TEXT("Function:[%s] InUserManagerObj is not a valid [II_UserManager] Interface UObject"), ANSI_TO_TCHAR(__FUNCTION__));
-// #if WITH_EDITOR
-// 		ensure(false);
-// #else
-// 		check(false);
-// #endif
-// 	}
 }
 
 void USavingBaseHandler::SaveGameToArea_CPP(FDongSaveSystemSavingParam& InParams)

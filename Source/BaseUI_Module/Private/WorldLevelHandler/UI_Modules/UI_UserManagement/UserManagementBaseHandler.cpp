@@ -4,12 +4,6 @@
 #include "WorldLevelHandler/UI_Modules/UI_UserManagement/UserManagementBaseHandler.h"
 #include "LowLevelHandler/UserManagement/UserManagerBase.h"
 
-// const TMap<FString, UClass*> UUserManagementBaseHandler::Map_Purpose_To_DependenceHandlerClass = {
-// 	TPair<FString, UClass*>("UserManager", UUserManagerBase::StaticClass()),
-// };
-// const TMap<FString, FText> UUserManagementBaseHandler::Map_Purpose_To_PurposeTooltip = {
-// 	TPair<FString, FText>("UserManager", NSLOCTEXT("UUserManagementBaseHandler", "UserManager_Tooltip", "本依赖Handler的UI层级包装。")),
-// };
 const FFunctionHandlerDef UUserManagementBaseHandler::HandlerDef(UUserManagementBaseHandler::StaticClass(), {
 	HandlerDependentPair("UserManager", new FFunctionHandlerDependent(UUserManagerBase::StaticClass(),
 		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。")))

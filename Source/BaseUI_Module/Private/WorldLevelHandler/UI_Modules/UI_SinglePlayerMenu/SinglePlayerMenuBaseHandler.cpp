@@ -7,15 +7,6 @@
 #include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
 #include "WorldLevelHandler/UI_Modules/UI_Save/SaveBaseHandler.h"
 
-// const TMap<FString, UClass*> USinglePlayerMenuBaseHandler::Map_Purpose_To_DependenceHandlerClass = {
-// 	TPair<FString, UClass*>("MapSelector", UMapSelectionBaseHandler::StaticClass()),
-// 	TPair<FString, UClass*>("SaveHandler", USaveBaseHandler::StaticClass()),
-// };
-// const TMap<FString, FText> USinglePlayerMenuBaseHandler::Map_Purpose_To_PurposeTooltip = {
-// 	TPair<FString, FText>("MapSelector", NSLOCTEXT("USinglePlayerMenuBaseHandler", "MapSelector_Tooltip", "主菜单需要选择以及切换地图。本依赖Handler主要读取地图的信息以及加载对应地图。")),
-// 	TPair<FString, FText>("SaveHandler", NSLOCTEXT("USinglePlayerMenuBaseHandler", "SaveHandler_Tooltip", "主菜单需要保存的功能；实际进行文件操作以及保存读取的Handler")),
-// };
-
 const FFunctionHandlerDef USinglePlayerMenuBaseHandler::HandlerDef(USinglePlayerMenuBaseHandler::StaticClass(), {
 	HandlerDependentPair("MapSelector", new FFunctionHandlerDependent(UMapSelectionBaseHandler::StaticClass(),
 		NSLOCTEXT("USinglePlayerMenuBaseHandler", "MapSelector_Tooltip", "主菜单需要选择以及切换地图。本依赖Handler主要读取地图的信息以及加载对应地图。"))),
@@ -45,15 +36,6 @@ void USinglePlayerMenuBaseHandler::StartNewGame_CPP()
  	}
 }
 
-// TSet<UClass*> USinglePlayerMenuBaseHandler::GetDependenceHandlerInterfaceCollection()
-// {
-// 	static const TSet<UClass*> DependenceHandlerClassCollection = {
-// 		UI_UI_MapSelectable::StaticClass(),
-// 		UI_UI_Savable::StaticClass()
-// 	};
-// 	return DependenceHandlerClassCollection;
-// }
-
 void USinglePlayerMenuBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
 {
 	if (MatchedInterfaceClassPtr == UI_UI_MapSelectable::StaticClass())
@@ -69,8 +51,6 @@ void USinglePlayerMenuBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr,
 void USinglePlayerMenuBaseHandler::AssignDependentHandlerPtr()
 {
 	Super::AssignDependentHandlerPtr();
-	// MapSelectableObj = dynamic_cast<II_UI_MapSelectable*>(Map_Purpose_To_HandlerInstance["MapSelector"]);
-	// SaveBaseHandler = dynamic_cast<II_UI_Savable*>(Map_Purpose_To_HandlerInstance["SaveHandler"]);
 	MapSelectableObj = Map_Purpose_To_HandlerInstance["MapSelector"];
 	SaveBaseHandler = Map_Purpose_To_HandlerInstance["SaveHandler"];
 }
