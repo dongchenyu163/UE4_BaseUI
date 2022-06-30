@@ -118,7 +118,8 @@ public:
 protected:
 	II_Save* SavingHandlePtr;
 	II_UserManager* UserManagerPtr;
-	
+	II_UI_MapSelectable* MapSelectHandlerPtr;
+
 	UPROPERTY()
 	UMapsInfoHandler* MapsInfoHandler;
 	

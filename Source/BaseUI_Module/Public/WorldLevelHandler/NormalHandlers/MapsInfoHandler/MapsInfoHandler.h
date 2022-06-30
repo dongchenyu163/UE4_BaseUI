@@ -42,7 +42,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="MenuFramework|WorldLevelHandler|MapInfo")
 	FMapInfo GetPlayingMapInfo() { return PlayingMapInfo; }
-	
+	FMapInfo* GetPlayingMapInfo_CPP() { return &PlayingMapInfo; }
+
 	UFUNCTION(BlueprintCallable, Category="MenuFramework|WorldLevelHandler|MapInfo")
 	void SetPlayingMapInfo(FMapInfo InNewMapInfo) { PlayingMapInfo = InNewMapInfo; }
 	void SetPlayingMapInfo_CPP(const FMapInfo& InNewMapInfo) { PlayingMapInfo = InNewMapInfo; }

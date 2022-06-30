@@ -24,9 +24,11 @@ const FFunctionHandlerDef USaveBaseHandler::HandlerDef(USaveBaseHandler::StaticC
 	HandlerDependentPair("UserManager", new FFunctionHandlerDependent(UUserManagerBase::StaticClass(),
 		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
    HandlerDependentPair("MapsInfoHandler", new FFunctionHandlerDependent(UMapsInfoHandler::StaticClass(),
-		NSLOCTEXT("UMapSelectionBaseHandler", "MapsInfoHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+	   NSLOCTEXT("USavingBaseHandler", "MapsInfoHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
    HandlerDependentPair("WidgetHandler", new FFunctionHandlerDependent(UWidgetHandler::StaticClass(),
-		NSLOCTEXT("UMapSelectionBaseHandler", "WidgetHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+		NSLOCTEXT("USavingBaseHandler", "WidgetHandler_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。"))),
+	HandlerDependentPair("MapSelectHandler", new FFunctionHandlerDependent(UMapSelectionBaseHandler::StaticClass(),
+	   NSLOCTEXT("USavingBaseHandler", "MapSelectHandler_Tooltip", "本依赖Handler用来在读取存档后切换地图。"))),
 });
 
 void USaveBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
@@ -40,8 +42,6 @@ void USaveBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* Mat
 	{
 		UserManagerPtr = dynamic_cast<II_UserManager*>(MatchedObjectPtr);
 	}
-	MapsInfoHandler = dynamic_cast<UMapsInfoHandler*>(Map_Purpose_To_HandlerInstance["MapsInfoHandler"]);
-	WidgetHandler = dynamic_cast<UWidgetHandler*>(Map_Purpose_To_HandlerInstance["WidgetHandler"]);
 }
 
 void USaveBaseHandler::AssignDependentHandlerPtr()
@@ -49,6 +49,9 @@ void USaveBaseHandler::AssignDependentHandlerPtr()
 	Super::AssignDependentHandlerPtr();
 	SavingHandlePtr = dynamic_cast<II_Save*>(Map_Purpose_To_HandlerInstance["LowLevelSaveHandler"]);
 	UserManagerPtr = dynamic_cast<II_UserManager*>(Map_Purpose_To_HandlerInstance["UserManager"]);
+	MapSelectHandlerPtr = dynamic_cast<II_UI_MapSelectable*>(Map_Purpose_To_HandlerInstance["MapSelectHandler"]);
+	MapsInfoHandler = dynamic_cast<UMapsInfoHandler*>(Map_Purpose_To_HandlerInstance["MapsInfoHandler"]);
+	WidgetHandler = dynamic_cast<UWidgetHandler*>(Map_Purpose_To_HandlerInstance["WidgetHandler"]);
 }
 
 void USaveBaseHandler::InitHandler(II_GI_MenuFramework* InGameInstancePtr,
@@ -358,7 +361,8 @@ void USaveBaseHandler::PrepareSaveData(int32 InSlotNum)
 	// 准备其他信息
 	LevelSavingData->PlayingInfo->SavedEngineVersion = FEngineVersion::Current();
 	LevelSavingData->PlayingInfo->SlotIndex = InSlotNum;
-	LevelSavingData->PlayingInfo->PlayingMapIdentifier = GetFrameworkGameInstance_CPP()->GetPlayingMapUIInfo_CPP()->MapIdentifier;
+	// LevelSavingData->PlayingInfo->PlayingMapIdentifier = GetFrameworkGameInstance_CPP()->GetPlayingMapUIInfo_CPP()->MapIdentifier;
+	LevelSavingData->PlayingInfo->PlayingMapIdentifier = MapsInfoHandler->GetPlayingMapInfo_CPP()->MapIdentifier;
 	LevelSavingData->PlayingInfo->SaveTime = FDateTime::Now();
 	
 	// 将关卡中标记要保存的Actor进行序列化。
@@ -411,10 +415,10 @@ void USaveBaseHandler::Handle_AsyncLoadComplete(const FString& InLoadedSlotName,
 	LevelSavingData->Rename(nullptr, this);
 
 	// 获取World信息
-	auto MapInfoDataTable = GetFrameworkGameInstance_CPP()->GetMapInfoDataTable_CPP();
-	auto MapSelector = GetFrameworkGameInstance_CPP()->GetMapSelector_CPP();
+	// auto MapInfoDataTable = GetFrameworkGameInstance_CPP()->GetMapInfoDataTable_CPP();
+	// auto MapSelector = GetFrameworkGameInstance_CPP()->GetMapSelector_CPP();
 	auto& MapID = LevelSavingData->PlayingInfo->PlayingMapIdentifier;
-	auto MapInfo = MapInfoDataTable->FindRow<FMapUIInfo>(MapID, TEXT("Load another level save data"));
+	auto MapInfo = MapsInfoHandler->GetMapInfoDataTable()->FindRow<FMapInfo>(MapID, TEXT("Load another level save data"));
 
 #if WITH_EDITOR
 	ensure(MapInfo);
@@ -423,7 +427,7 @@ void USaveBaseHandler::Handle_AsyncLoadComplete(const FString& InLoadedSlotName,
 #endif
 
 	// 首先加载World，等待World加载完毕后再进行Actor的恢复。
-	MapSelector->LoadMap_CPP(MapInfo);
+	MapSelectHandlerPtr->LoadMap_CPP(MapInfo);
 	// 待World加载完毕后跳转到【USaveBaseHandler::Handle_OnAnyWorldChanged()】函数
 	// 就是下面的函数。
 	bIsWaitingWorldChanged = true;
