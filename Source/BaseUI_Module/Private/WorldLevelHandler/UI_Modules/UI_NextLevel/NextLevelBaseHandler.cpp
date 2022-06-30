@@ -29,7 +29,7 @@ void UNextLevelBaseHandler::LoadNextLevel_Implementation()
 
 bool UNextLevelBaseHandler::HasNextLevel_CPP()
 {
-	auto PlayingMapInfo = MapsInfoHandler->GetPlayingMapInfo();
+	const auto PlayingMapInfo = MapsInfoHandler->GetPlayingMapInfo();
 	if (PlayingMapInfo.NextLevel_MapIdentifierList.Num() > 0)
 	{
 		return true;
@@ -45,6 +45,6 @@ void UNextLevelBaseHandler::LoadNextLevel_CPP()
 		FName LoadMapIdentifier = PlayingMapInfo.NextLevel_MapIdentifierList[0];
 		FMapInfo LoadMapInfo;
 		MapsInfoHandler->GetMapInfo(LoadMapIdentifier, LoadMapInfo);
-		MapSelectionHandler->LoadMap_CPP(LoadMapInfo);
+		MapSelectionHandler->LoadMap_CPP(&LoadMapInfo);
 	}
 }
