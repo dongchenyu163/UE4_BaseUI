@@ -6,6 +6,8 @@
 #include "WorldLevelHandler/DA_WidgetInfo.h"
 #include "Components/ActorComponent.h"
 #include "GameplayClasses/GameInstanceBase/Interfaces/I_GI_MenuFramework.h"
+#include "WorldLevelHandler/NormalHandlers/MapsInfoHandler/MapsInfoHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
 #include "AC_CTRL_MenuBase.generated.h"
 
 
@@ -48,5 +50,12 @@ protected:
 	
 	UPROPERTY(BlueprintReadWrite, Category="Widget", meta=(ToolTip="正在显示的Widget"))
 	UDA_WidgetInfo* ShowingWidgetInfo;
+
+	UPROPERTY()
+	UMapsInfoHandler* MapsInfoHandler;
+
+	UPROPERTY()
+	UMapSelectionBaseHandler* MapSelectionHandler;
+
 
 };

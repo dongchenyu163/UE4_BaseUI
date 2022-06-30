@@ -4,6 +4,7 @@
 #include "GameplayClasses/ControllerComponent/AC_CTRL_MenuBase.h"
 #include "WorldLevelHandler/UI_Interfaces/I_SetControllerComp.h"
 #include "Utility_BP_Func.h"
+#include "BaseClassesAndTypes/BaseUI_Static.h"
 #include "Blueprint/UserWidget.h"
 // #include "MainMenu/Examples/TestUI/TestUIBase.h"
 
@@ -24,7 +25,26 @@ void UAC_CTRL_MenuBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	UFunctionHandlerBase* FoundHandler;
+	if (UBaseUI_Static::FindHandlerByName("MapSelector", FoundHandler))
+	{
+		MapSelectionHandler = dynamic_cast<UMapSelectionBaseHandler*>(FoundHandler);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Function:[%s] No handler named [MapSelector]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
+	}
+	
+// 	MapsInfoHandler
+// UMapsInfoHandler
+	if (UBaseUI_Static::FindHandlerByName("MapsInfoHandler", FoundHandler))
+	{
+		MapsInfoHandler = dynamic_cast<UMapsInfoHandler*>(FoundHandler);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Function:[%s] No handler named [MapsInfoHandler]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
+	}
 	
 }
 
@@ -99,14 +119,16 @@ void UAC_CTRL_MenuBase::SwitchWidgetTo(UDA_WidgetInfo* InNewWidget, bool bInChan
 		// 新切换的Widget是否需要切换地图（比如：返回主菜单被按下时候就需要切换世界）
 		if (bInChangeWorld && !InNewWidget->AssociatedMapIdentifier.IsNone())
 		{
-			const FMapUIInfo& MapUIInfo = *(GetFrameworkGameInstance_CPP()->GetMapUIInfo_CPP(InNewWidget->AssociatedMapIdentifier));
+			FMapInfo MapInfo;  // = *(GetFrameworkGameInstance_CPP()->GetMapUIInfo_CPP(InNewWidget->AssociatedMapIdentifier));
+			MapsInfoHandler->GetMapInfo(InNewWidget->AssociatedMapIdentifier, MapInfo);
+			
 			FString CurrentMapString = GetWorld()->GetPackage()->FileName.ToString();
-			if (MapUIInfo.IsValid())
+			if (MapInfo.IsValid())
 			{
-				FString DEBUG_LoadMap_AssetPathString = MapUIInfo.MapObject.GetLongPackageName();
-				if (CurrentMapString != MapUIInfo.MapObject.GetLongPackageName())
+				FString DEBUG_LoadMap_AssetPathString = MapInfo.MapObject.GetLongPackageName();
+				if (CurrentMapString != MapInfo.MapObject.GetLongPackageName())
 				{
-					GetFrameworkGameInstance_CPP()->GetMapSelector_CPP()->LoadMap_CPP(&MapUIInfo);
+					MapSelectionHandler->LoadMap_CPP(&MapInfo);
 					return;  // 切换地图会销毁当前的Controller，以及本Component。所以直接返回即可。
 				}
 			}

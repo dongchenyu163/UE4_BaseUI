@@ -1,42 +1,53 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "WorldLevelHandler/Examples/TestUI/MainMenuWidget.h"
+#include "BaseClassesAndTypes/BaseUI_Static.h"
+
+#include "WorldLevelHandler/UI_Modules/UI_ResumeMenu/ResumeMenuBaseHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_SinglePlayerMenu/SinglePlayerMenuBaseHandler.h"
 
 void UMainMenuWidget::StartNewGame_Implementation()
 {
-	// TScriptInterface<II_GI_MenuFramework> MainMenuGameInstance = GetFrameworkGameInstance_CPP();
-	II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
-	if (MainMenuGameInstance)
+	UFunctionHandlerBase* FoundHandler;
+	if (UBaseUI_Static::FindHandlerByName("SinglePlayerMenuHandle", FoundHandler))
 	{
-		// TScriptInterface<II_UI_SinglePlayerFunctions> SinglePlayerMenuBaseHandler = 
-			// II_GI_MenuFramework::Execute_GetSinglePlayerMenuBaseHandler(MainMenuGameInstance.GetObject());
-		// Execute_StartNewGame(SinglePlayerMenuBaseHandler.GetObject());
-		MainMenuGameInstance->GetSinglePlayerMenuBaseHandler_CPP()->StartNewGame_CPP();
+		USinglePlayerMenuBaseHandler* SinglePlayerMenuBaseHandlerPtr = dynamic_cast<USinglePlayerMenuBaseHandler*>(FoundHandler);
+		SinglePlayerMenuBaseHandlerPtr->StartNewGame_CPP();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Function:[%s] No handler named [SinglePlayerMenuHandle]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
+		return;
 	}
 }
 
 void UMainMenuWidget::ContinueFromLast_Implementation()
 {
-	II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
-	if (MainMenuGameInstance)
+	UFunctionHandlerBase* FoundHandler;
+	if (UBaseUI_Static::FindHandlerByName("SinglePlayerMenuHandle", FoundHandler))
 	{
-		// TScriptInterface<II_UI_SinglePlayerFunctions> SinglePlayerMenuBaseHandler = 
-			// II_GI_MenuFramework::Execute_GetSinglePlayerMenuBaseHandler(MainMenuGameInstance.GetObject());
-		// Execute_ContinueFromLast(SinglePlayerMenuBaseHandler.GetObject());
-		MainMenuGameInstance->GetSinglePlayerMenuBaseHandler_CPP()->ContinueFromLast_CPP();
+		USinglePlayerMenuBaseHandler* SinglePlayerMenuBaseHandlerPtr = dynamic_cast<USinglePlayerMenuBaseHandler*>(FoundHandler);
+		SinglePlayerMenuBaseHandlerPtr->ContinueFromLast_CPP();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Function:[%s] No handler named [SinglePlayerMenuHandle]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
+		return;
 	}
 }
 
 void UMainMenuWidget::ExitToDesktop_Implementation()
 {
-	II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
-	if (MainMenuGameInstance)
+	UFunctionHandlerBase* FoundHandler;
+	if (UBaseUI_Static::FindHandlerByName("ResumeMenuHandle", FoundHandler))
 	{
-		// TScriptInterface<II_UI_SinglePlayerFunctions> SinglePlayerMenuBaseHandler = 
-			// II_GI_MenuFramework::Execute_GetSinglePlayerMenuBaseHandler(MainMenuGameInstance.GetObject());
-		// Execute_ExitToDesktop(SinglePlayerMenuBaseHandler.GetObject());
-		MainMenuGameInstance->GetResumeMenuBaseHandler_CPP()->ExitToDesktop_CPP();
+		UResumeMenuBaseHandler* ResumeMenuBaseHandlerPtr = dynamic_cast<UResumeMenuBaseHandler*>(FoundHandler);
+		ResumeMenuBaseHandlerPtr->ExitToDesktop_CPP();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Function:[%s] No handler named [ResumeMenuHandle]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
+		return;
 	}
 }
 

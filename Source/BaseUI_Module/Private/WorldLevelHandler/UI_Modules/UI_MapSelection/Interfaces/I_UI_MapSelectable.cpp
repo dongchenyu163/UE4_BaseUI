@@ -9,13 +9,13 @@
 
 TArray<FMapInfo*> II_UI_MapSelectable::GetMapInfoList_CPP(UDataTable* InMapInfoDataTable)
 {
-	TArray<FMapUIInfo*> RetInfoPtrList;
+	TArray<FMapInfo*> RetInfoPtrList;
 	if (IsValid(InMapInfoDataTable))
 	{
 		TArray<FName> RowNameList = InMapInfoDataTable->GetRowNames();
 		for (FName RowName : RowNameList)
 		{
-			FMapUIInfo* MapUIInfo = InMapInfoDataTable->FindRow<FMapUIInfo>(RowName, __FUNCTION__);
+			FMapInfo* MapUIInfo = InMapInfoDataTable->FindRow<FMapInfo>(RowName, __FUNCTION__);
 			RetInfoPtrList.Add(MapUIInfo);
 		}
 	}

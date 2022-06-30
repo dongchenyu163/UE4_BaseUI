@@ -2,7 +2,8 @@
 
 
 #include "WorldLevelHandler/Examples/TestUI/TestUIBase.h"
-
+#include "WorldLevelHandler/NormalHandlers/MapsInfoHandler/MapsInfoHandler.h"
+#include "BaseClassesAndTypes/BaseUI_Static.h"
 #include "Kismet/GameplayStatics.h"
 
 void UTestUIBase::OnBeginPlay_Implementation()
@@ -11,16 +12,26 @@ void UTestUIBase::OnBeginPlay_Implementation()
 
 void UTestUIBase::Handle_OnComponentSwitchToNewWidget_Implementation()
 {
+	
 	if (InGameMenu_BackgroundBlur)
 	{
-		FMapUIInfo* MapInfoPtr = GetFrameworkGameInstance_CPP()->GetPlayingMapUIInfo_CPP();
-		if (MapInfoPtr->bIsGameWorld)
+		UFunctionHandlerBase* FoundHandler;
+		if (UBaseUI_Static::FindHandlerByName("MapsInfoHandler", FoundHandler))
 		{
-			InGameMenu_BackgroundBlur->SetBlurStrength(5);
+			UMapsInfoHandler* MapSelectionHandlerPtr = dynamic_cast<UMapsInfoHandler*>(FoundHandler);
+			const FMapInfo* MapInfoPtr = MapSelectionHandlerPtr->GetPlayingMapInfo_CPP();
+			if (MapInfoPtr->bIsGameWorld)
+			{
+				InGameMenu_BackgroundBlur->SetBlurStrength(5);
+			}
+			else
+			{
+				InGameMenu_BackgroundBlur->SetBlurStrength(0);
+			}
 		}
 		else
 		{
-			InGameMenu_BackgroundBlur->SetBlurStrength(0);
+			UE_LOG(LogTemp, Display, TEXT("Function:[%s] No handler named [MapsInfoHandler]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
 		}
 	}
 }

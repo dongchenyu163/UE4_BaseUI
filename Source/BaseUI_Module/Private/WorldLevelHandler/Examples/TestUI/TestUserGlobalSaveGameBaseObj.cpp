@@ -3,12 +3,9 @@
 
 #include "WorldLevelHandler/Examples/TestUI/TestUserGlobalSaveGameBaseObj.h"
 
-#include "GameplayClasses/GameInstanceBase/Interfaces/I_GI_MenuFramework.h"
-#include "Kismet/GameplayStatics.h"
-
-void UTestUserGlobalSaveGameBaseObj::DoUpdateUserGlobalData_Implementation()
-{
-	auto GI = GetFrameworkGameInstance_CPP();
-	auto Info = GI->GetUIRuntimeInfoTMap_CPP();
-	UserMapsInfo = *Info;
-}
+// void UTestUserGlobalSaveGameBaseObj::DoUpdateUserGlobalData_Implementation()
+// {
+// 	auto GI = GetFrameworkGameInstance_CPP();
+// 	auto Info = GI->GetUIRuntimeInfoTMap_CPP();
+// 	UserMapsInfo = *Info;
+// }

@@ -3,36 +3,41 @@
 
 #include "WorldLevelHandler/Examples/TestUI/MapSelectionWidget.h"
 
-TArray<FName> UMapSelectionWidget::GetMapIDList_Implementation(UDataTable* InMapInfoDataTable)
-{
-	II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
-	if (MainMenuGameInstance)
-	{
-		return MainMenuGameInstance->GetMapSelector_CPP()->GetMapIDList_CPP(InMapInfoDataTable);
-	}
-	return TArray<FName>();
-}
+#include "BaseClassesAndTypes/BaseUI_Static.h"
+#include "WorldLevelHandler/NormalHandlers/MapsInfoHandler/MapsInfoHandler.h"
+#include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
 
-TArray<FMapUIInfo> UMapSelectionWidget::GetMapInfoList_Copy_Implementation(UDataTable* InMapInfoDataTable)
+TArray<FName> UMapSelectionWidget::GetMapIDList_CPP(UDataTable* InMapInfoDataTable)
 {
-	II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
-	if (MainMenuGameInstance)
+	UFunctionHandlerBase* FoundHandler;
+	if (UBaseUI_Static::FindHandlerByName("MapSelector", FoundHandler))
 	{
-		return MainMenuGameInstance->GetMapSelector_CPP()->GetMapInfoList_Copy_Implementation(InMapInfoDataTable);
+		UMapSelectionBaseHandler* MapSelectionHandlerPtr = dynamic_cast<UMapSelectionBaseHandler*>(FoundHandler);
+		return MapSelectionHandlerPtr->GetMapIDList_CPP(InMapInfoDataTable);
 	}
-	return TArray<FMapUIInfo>();
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Function:[%s] No handler named [MapSelector]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
+		return TArray<FName>();
+	}
 }
 
 void UMapSelectionWidget::LoadMap_CPP(const FMapInfo* InMapInfo)
 {
-	II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
-	if (MainMenuGameInstance)
+	UFunctionHandlerBase* FoundHandler;
+	if (UBaseUI_Static::FindHandlerByName("MapSelector", FoundHandler))
 	{
-		return MainMenuGameInstance->GetMapSelector_CPP()->LoadMap_CPP(InMapInfo);
+		UMapSelectionBaseHandler* MapSelectionHandlerPtr = dynamic_cast<UMapSelectionBaseHandler*>(FoundHandler);
+		return MapSelectionHandlerPtr->LoadMap_CPP(InMapInfo);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Function:[%s] No handler named [MapSelector]!!!"), ANSI_TO_TCHAR(__FUNCTION__));
+		return;
 	}
 }
 
-void UMapSelectionWidget::LoadMap_Implementation(FMapUIInfo InMapInfo)
+void UMapSelectionWidget::LoadMap_Implementation(FMapInfo InMapInfo)
 {
 	LoadMap_CPP(&InMapInfo);
 }

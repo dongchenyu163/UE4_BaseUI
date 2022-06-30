@@ -34,8 +34,5 @@ class BASEUI_MODULE_API UTestUserGlobalSaveGameBaseObj : public UUserGlobalDataS
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, SaveGame, BlueprintReadWrite, Category="Save|UserGlobalData", meta=(ToolTip="记录地图的解锁情况"))
-	TMap<FName, FMapUIRuntimeInfo> UserMapsInfo;
-	
-	virtual void DoUpdateUserGlobalData_Implementation() override;
+	// virtual void DoUpdateUserGlobalData_Implementation() override;
 };

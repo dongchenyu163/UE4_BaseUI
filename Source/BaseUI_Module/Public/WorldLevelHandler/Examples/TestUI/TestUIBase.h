@@ -75,15 +75,16 @@ protected:
 	virtual void NativeConstruct() override
 	{
 		Super::NativeConstruct();
-		FOnAnyWorldBeginPlay* OnAnyWorldBeginPlay = GetFrameworkGameInstance_CPP()->GetOnAnyWorldBeginPlayDelegate_CPP();
-		OnAnyWorldBeginPlay->AddUniqueDynamic( this, &UTestUIBase::Handle_OnAnyWorldBeginPlay );
+		// FOnAnyWorldBeginPlay* OnAnyWorldBeginPlay = GetFrameworkGameInstance_CPP()->GetOnAnyWorldBeginPlayDelegate_CPP();
+		// OnAnyWorldBeginPlay->AddUniqueDynamic( this, &UTestUIBase::Handle_OnAnyWorldBeginPlay );
+		
 		// OnAnyWorldBeginPlay->AddUniqueDynamic
 		// InGameMenu_BackgroundBlur = WidgetTree->ConstructWidget<UBackgroundBlur>(UBackgroundBlur::StaticClass(), "InGame_BackgroundBlur");
 		// UPanelWidget* aaa = Cast<UPanelWidget>(GetRootWidget());
 		// aaa->AddChild(InGameMenu_BackgroundBlur);
 		
 		// 【OnComponentSwitchToNewWidget】委托通过接口传递到Component，让Comp能够在切换Widget的时候可以通知Widget被调用了。
-		OnComponentSwitchToNewWidget.AddUniqueDynamic( this, &UTestUIBase::Handle_OnComponentSwitchToNewWidget);
+		// OnComponentSwitchToNewWidget.AddUniqueDynamic( this, &UTestUIBase::Handle_OnComponentSwitchToNewWidget);
 	}
 
 	// virtual void NativeOnInitialized() override

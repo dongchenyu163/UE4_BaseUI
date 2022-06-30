@@ -20,7 +20,7 @@ void UMapSelectionBaseHandler::AssignDependentHandlerPtr()
 	WidgetHandler = dynamic_cast<UWidgetHandler*>(Map_Purpose_To_HandlerInstance["WidgetHandler"]);
 }
 
-TArray<FName> UMapSelectionBaseHandler::GetMapIDList_Implementation(UDataTable* InMapInfoDataTable)
+TArray<FName> UMapSelectionBaseHandler::GetMapIDList_CPP(UDataTable* InMapInfoDataTable)
 {
 	TArray<FName> RetNameList;
 	if (IsValid(InMapInfoDataTable))

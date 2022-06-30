@@ -92,7 +92,7 @@ class BASEUI_MODULE_API II_UI_MapSelectable
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="MapSelection")
 	TArray<FName> GetMapIDList(UDataTable* InMapInfoDataTable);
-	virtual TArray<FName> GetMapIDList_CPP(UDataTable* InMapInfoDataTable) { return Execute_GetMapIDList((UObject*)this, InMapInfoDataTable); }
+	virtual TArray<FName> GetMapIDList_CPP(UDataTable* InMapInfoDataTable) = 0;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="MapSelection", meta=(ToolTip="蓝图用，获取MapUIInfo的一份拷贝，因为蓝图没法传递普通C++指针"))
 	TArray<FMapInfo> GetMapInfoList(UDataTable* InMapInfoDataTable);
