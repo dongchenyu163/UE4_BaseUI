@@ -159,13 +159,13 @@ int UUserManagerBase::GetUserSaveIndex_ByID_CPP(int64 UserID)
 	}
 }
 
-void UUserManagerBase::Init()
-{
-	LoadUserInfo();
-	bIsInitial = true;
-
-	Init_User();
-}
+// void UUserManagerBase::Init()
+// {
+// 	LoadUserInfo();
+// 	bIsInitial = true;
+//
+// 	Init_User();
+// }
 
 void UUserManagerBase::Init_User()
 {

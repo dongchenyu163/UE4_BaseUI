@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "WorldLevelHandler/UI_Modules/BaseHandler/UIHandlerBase.h"
 #include "Interfaces/I_UI_UserManagement.h"
+#include "LowLevelHandler/UserManagement/UserManagerBase.h"
 #include "UObject/Object.h"
 #include "UserManagementBaseHandler.generated.h"
 
@@ -15,13 +16,8 @@ UCLASS(BlueprintType, Blueprintable, meta=(ToolTip=""))
 class BASEUI_MODULE_API UUserManagementBaseHandler : public UUIHandlerBase, public II_UI_UserManagement
 {
 	GENERATED_BODY()
-
-public:
-	// const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
-	// const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
-	const static FFunctionHandlerDef HandlerDef;
-	
 protected:
+	virtual void AssignDependentHandlerPtr() override;
 	virtual ~UUserManagementBaseHandler() override {}
 public:
 	virtual ECreateUserFailed CreateNewUser_CPP(FName InUserName, const FText& InUserDisplayName, UTexture2D* InUserIcon) override;
@@ -32,4 +28,13 @@ public:
 	virtual ECreateUserFailed CreateNewUser_Implementation(FName InUserName, const FText& InUserDisplayName, UTexture2D* InUserIcon) override { return CreateNewUser_CPP(InUserName, InUserDisplayName, InUserIcon); }
 	virtual void GetUserList_Implementation(TArray<FUserInfo>& OutUserList) override { GetUserList_CPP(OutUserList); }
 	virtual FUserInfo GetCurrentUser_Implementation() override { return *(GetCurrentUser_CPP()); }
+
+protected:
+	// UPROPERTY()
+	II_UserManager* UserManagerPtr; 
+	
+public:
+	// const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
+	// const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
+	const static FFunctionHandlerDef HandlerDef;
 };

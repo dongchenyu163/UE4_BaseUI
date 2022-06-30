@@ -29,8 +29,8 @@ public:
 	// virtual TSet<UClass*> GetDependenceHandlerClassCollection() override { return TSet<UClass*>(); }
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
 	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict) override;
-protected:
 	virtual void OnStart() override {}
+protected:
 #pragma endregion 从ULowLevelFunctionHandlerBase继承
 	
 public:
@@ -63,7 +63,7 @@ public:
 
 	virtual FOnUserChanged* GetOnUserChangedDelegate_CPP() override { return &OnUserChanged; }
 	
-	void Init();
+	// void Init();
 	/**
 	 * @brief 初始化创建User，以及初始切换到合适的User上。
 	 */
