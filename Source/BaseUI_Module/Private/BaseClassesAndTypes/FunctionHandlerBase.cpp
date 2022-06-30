@@ -19,7 +19,7 @@ void UFunctionHandlerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr,
 
 	// Map_Purpose_To_HandlerInstance
 		
-	TSet<UClass*> NotMatchInterfaceList(GetDependenceHandlerInterfaceCollection());
+	TSet<UClass*> NotMatchInterfaceList(GetDependenceHandlerClassCollection());
 	for (const auto Pair : InDependencyHandlerDict)
 	{
 		UClass* MatchedInterface = nullptr;

@@ -33,7 +33,7 @@ protected:
 #pragma region 从ULowLevelFunctionHandlerBase继承
 public:
 	// virtual FName GetHandlerFName() override { return FName("LowLevelSaveHandler"); }
-	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
+	// virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::LowLevelHandler; }
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
 	virtual void AssignDependentHandlerPtr() override;

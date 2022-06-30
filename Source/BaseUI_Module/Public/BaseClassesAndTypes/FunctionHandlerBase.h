@@ -26,21 +26,25 @@ UCLASS(Abstract)
 class BASEUI_MODULE_API UFunctionHandlerBase : public UObject
 {
 	GENERATED_BODY()
-
-public:
+	
+protected:
 	/**
-	 * @brief （有依赖的话必须覆盖）某个Handler依赖的Handler名称列表
+	 * @brief 无需覆盖，某个Handler依赖的Handler名称列表
 	 * @return 
 	 */
-	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() { return TSet<UClass*>(); }
-	// virtual TMap<FString, UClass*> GetPurpose_To_DependenceHandlerDict() { return Map_Purpose_To_DependenceHandlerClass; }
-	// virtual FText GetPurposeTooltipText(FString InPurposeString) { return Map_Purpose_To_PurposeTooltip[InPurposeString]; }
-	
-	/**
-	 * @brief 由GameInstance 在创建完成本Handler的依赖Handler对象后，进行调用，并传入依赖的
-	 */
-	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict);
-
+	virtual TSet<UClass*> GetDependenceHandlerClassCollection()
+	{
+		static TSet<UClass*> ResultCollection;
+		static bool bHasCollected = false;
+		if ( UNLIKELY(!bHasCollected) )
+		{
+			for (auto PairIt = HandlerDef.Map_Purpose_To_Dependent.CreateConstIterator(); PairIt; ++PairIt)
+			{
+				ResultCollection.Add((*PairIt).Value->DependentClass);
+			}
+		}
+		return ResultCollection;
+	}
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) {}
 	
 	/**
@@ -49,6 +53,15 @@ public:
 	 *			本函数在InitHandler函数的最后被调用。
 	 */
 	virtual void AssignDependentHandlerPtr() {}
+
+public:
+	// virtual TMap<FString, UClass*> GetPurpose_To_DependenceHandlerDict() { return Map_Purpose_To_DependenceHandlerClass; }
+	// virtual FText GetPurposeTooltipText(FString InPurposeString) { return Map_Purpose_To_PurposeTooltip[InPurposeString]; }
+	
+	/**
+	 * @brief 由GameInstance 在创建完成本Handler的依赖Handler对象后，进行调用，并传入依赖的
+	 */
+	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr, TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict);
 
 	virtual EFunctionHandlerType GetHandlerType() { return HandlerType; }
 

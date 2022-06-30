@@ -20,7 +20,7 @@ class BASEUI_MODULE_API UMapsInfoHandler : public UWorldLevelHandlerBase
 	GENERATED_BODY()
 
 public:
-	virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
+	// virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::WorldHandler; }
 	virtual void AssignDependentHandlerPtr() override;
 	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr,

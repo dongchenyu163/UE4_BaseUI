@@ -21,13 +21,13 @@ const FFunctionHandlerDef USavingBaseHandler::HandlerDef(USavingBaseHandler::Sta
 		NSLOCTEXT("USavingBaseHandler", "UserManager_Tooltip", "本依赖Handler用来获取用户的名称UID等信息用来分用户保存各种存档。")))
 });
 
-TSet<UClass*> USavingBaseHandler::GetDependenceHandlerInterfaceCollection()
-{
-	static const TSet<UClass*> DependenceHandlerClassCollection = {
-		UI_UserManager::StaticClass()
-	};
-	return DependenceHandlerClassCollection;
-}
+// TSet<UClass*> USavingBaseHandler::GetDependenceHandlerInterfaceCollection()
+// {
+// 	static const TSet<UClass*> DependenceHandlerClassCollection = {
+// 		UI_UserManager::StaticClass()
+// 	};
+// 	return DependenceHandlerClassCollection;
+// }
 
 void USavingBaseHandler::AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr)
 {
