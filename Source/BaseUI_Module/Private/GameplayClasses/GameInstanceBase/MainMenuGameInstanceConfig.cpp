@@ -1,5 +1,6 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
+#include "GameplayClasses/GameInstanceBase/MainMenuGameInstanceConfig.h"
 #include "WorldLevelHandler/UI_Modules/BaseHandler/UIHandlerBase.h"
 #include "WorldLevelHandler/UI_Modules/UI_MapSelection/MapSelectionBaseHandler.h"
 #include "WorldLevelHandler/UI_Modules/UI_NextLevel/NextLevelBaseHandler.h"
@@ -7,7 +8,6 @@
 #include "WorldLevelHandler/UI_Modules/UI_Save/SaveBaseHandler.h"
 #include "WorldLevelHandler/UI_Modules/UI_SinglePlayerMenu/SinglePlayerMenuBaseHandler.h"
 
-#include "GameplayClasses/GameInstanceBase/MainMenuGameInstanceConfig.h"
 
 UMainMenuGameInstanceConfig::UMainMenuGameInstanceConfig(): Super()
 {
