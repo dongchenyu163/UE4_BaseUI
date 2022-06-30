@@ -114,7 +114,7 @@ struct BASEUI_MODULE_API FMapInfo_User
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Base Info", meta=(Tooltip="Map ID，地图的唯一识别名称."))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, SaveGame, Category="Base Info", meta=(Tooltip="Map ID，地图的唯一识别名称."))
 	FName MapIdentifier = NAME_None;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, SaveGame, Category="", meta=(Tooltip="当前关卡是否 【可以游玩？】或【已解锁？】"))
@@ -124,6 +124,13 @@ struct BASEUI_MODULE_API FMapInfo_User
 	FMapInfo_User(FMapInfo& InMapInfo) :
 	MapIdentifier(InMapInfo.MapIdentifier),
 	bIsPlayable(InMapInfo.bInitialPlayable) {}
+
+	friend FArchive& operator<< (FArchive& Ar, FMapInfo_User& InStruct)
+	{
+		Ar << InStruct.MapIdentifier;
+		Ar << InStruct.bIsPlayable;
+		return Ar;
+	}
 };
 
 

@@ -25,5 +25,9 @@ public:
 
 	UPROPERTY(EditAnywhere, SaveGame, BlueprintReadWrite, Category="Save|UserGlobalData", meta=(ToolTip="记录地图的解锁情况"))
 	TMap<FName, FMapInfo_User> UserMapsRuntimeInfo;
-	
+
+	virtual void Serialize(FArchive& Ar) override
+	{
+		Ar << UserMapsRuntimeInfo;
+	}
 };
