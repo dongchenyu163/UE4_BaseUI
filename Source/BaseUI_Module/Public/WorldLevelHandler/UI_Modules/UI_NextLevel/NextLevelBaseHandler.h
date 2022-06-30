@@ -19,7 +19,7 @@ class BASEUI_MODULE_API UNextLevelBaseHandler : public UUIHandlerBase, public II
 	GENERATED_BODY()
 
 public:
-	void AssignDependentHandlerPtr();
+	virtual void AssignDependentHandlerPtr() override;
 	virtual bool HasNextLevel_Implementation() override;
 	virtual void LoadNextLevel_Implementation() override;
 	virtual bool HasNextLevel_CPP() override;

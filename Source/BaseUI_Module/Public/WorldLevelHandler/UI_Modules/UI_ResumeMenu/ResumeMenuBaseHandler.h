@@ -23,7 +23,7 @@ public:
 protected:
 	virtual ~UResumeMenuBaseHandler() override {}
 public:
-	void AssignDependentHandlerPtr();
+	virtual void AssignDependentHandlerPtr() override;
 	virtual void ResumeGame_Implementation(UWidget* InControlledWidget) override;
 	virtual void ExitToMainMenu_Implementation() override;
 	virtual void ExitToDesktop_Implementation() override;
