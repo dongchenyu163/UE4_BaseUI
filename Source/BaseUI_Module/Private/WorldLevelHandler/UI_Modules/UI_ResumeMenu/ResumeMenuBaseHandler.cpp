@@ -48,7 +48,7 @@ void UResumeMenuBaseHandler::ResumeGame_CPP(UWidget* InControlledWidget)
 
 void UResumeMenuBaseHandler::ExitToMainMenu_CPP()
 {
-	auto MainMenuMap = MapsInfoHandler->GetMainMenuMap();
+	const auto MainMenuMap = MapsInfoHandler->GetMainMenuMap();
 	FString MapName = MainMenuMap->GetMapName();
 	UGameplayStatics::OpenLevel(this, FName(MainMenuMap->GetMapName()));
 }
