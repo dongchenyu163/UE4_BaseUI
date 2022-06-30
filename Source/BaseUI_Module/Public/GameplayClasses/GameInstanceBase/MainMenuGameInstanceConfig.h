@@ -6,6 +6,8 @@
 #include "ClassesAndStructs/FFunctionHandlerClassCustomizer.h"
 #include "ClassesAndStructs/FunctionHandlerInfo.h"
 #include "UObject/Object.h"
+#include "ReflectionOperations.h"
+#include "LowLevelHandler/SaveLoad/ClassAndStructs/UserGlobalDataSaveGameObjBase.h"
 #include "MainMenuGameInstanceConfig.generated.h"
 
 /**
