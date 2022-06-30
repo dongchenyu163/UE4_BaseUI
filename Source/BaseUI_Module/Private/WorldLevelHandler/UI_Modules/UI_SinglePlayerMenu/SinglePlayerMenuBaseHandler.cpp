@@ -32,8 +32,8 @@ void USinglePlayerMenuBaseHandler::StartNewGame_CPP()
  			II_GI_MenuFramework* MainMenuGameInstance = GetFrameworkGameInstance_CPP();
  			if (MainMenuGameInstance)
  			{
- 				auto MapInfoList = MainMenuGameInstance->GetMapSelector_CPP()->GetMapInfoList_CPP(MapInfoDataTable);
- 				auto MainMenuMap = MapInfoList[0]->MapObject;
+ 				auto MapInfoList = MapSelectableObj->GetMapInfoList_CPP(MapInfoDataTable);
+ 				const auto MainMenuMap = MapInfoList[0]->MapObject;
  				FString MapName = MainMenuMap->GetName();
  				UGameplayStatics::OpenLevel(this, FName(MainMenuMap.GetLongPackageName()));
  			}
