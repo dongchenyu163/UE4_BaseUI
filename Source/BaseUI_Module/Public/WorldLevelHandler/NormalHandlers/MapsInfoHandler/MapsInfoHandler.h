@@ -22,11 +22,11 @@ class BASEUI_MODULE_API UMapsInfoHandler : public UWorldLevelHandlerBase
 public:
 	// virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
 	virtual EFunctionHandlerType GetHandlerType() override { return EFunctionHandlerType::WorldHandler; }
-	virtual void AssignDependentHandlerPtr() override;
 	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr,
 		TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict) override;
 	virtual void OnStart() override;
-	
+protected:
+	virtual void AssignDependentHandlerPtr() override;
 public:
 	UFUNCTION(BlueprintCallable, Category="MenuFramework|WorldLevelHandler|MapInfo", meta=(ToolTip="返回主菜单时用"))
 	TSoftObjectPtr<UWorld> GetMainMenuMap() { return MainMenuMap; }

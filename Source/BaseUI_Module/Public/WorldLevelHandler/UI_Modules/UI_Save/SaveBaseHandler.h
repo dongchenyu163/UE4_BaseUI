@@ -35,22 +35,19 @@ public:
 		// OnSaveFinished_CPP.BindUObject(this, &USaveBaseHandler::Handle_AsyncSaveGameToSlotDelegate);
 	}
 	
-public:
-	// const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
-	// const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
-	const static FFunctionHandlerDef HandlerDef;
 
-protected:
-	virtual ~USaveBaseHandler() override {}
 public:
-	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
-	virtual void AssignDependentHandlerPtr() override;
 	virtual void InitHandler(II_GI_MenuFramework* InGameInstancePtr,
 		TMap<FName, UFunctionHandlerBase*>& InDependencyHandlerDict) override;
 	virtual void OnStart() override;
 	virtual void OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld) override;
 	virtual void OnNewWorldBeginPlay() override;
-
+protected:
+	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
+	virtual void AssignDependentHandlerPtr() override;
+protected:
+	virtual ~USaveBaseHandler() override {}
+public:
 	virtual void SaveGame_CPP(int32 InSlotNum) override;
 	virtual void SaveGame_Auto_CPP() override;
 	virtual void SaveGame_Quick_CPP() override;
@@ -152,5 +149,8 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Save Load System|Loading Screen", meta=(Tooltip="产生加载动作后才 置位 本标志位，过滤掉非法的【】事件"))
 	bool bIsWaitingWorldChanged = false;
+
+public:
+	const static FFunctionHandlerDef HandlerDef;
 };
 

@@ -18,7 +18,7 @@ class BASEUI_MODULE_API UMapSelectionBaseHandler : public UUIHandlerBase, public
 {
 	GENERATED_BODY()
 
-public:
+protected:
 	virtual void AssignDependentHandlerPtr() override;
 
 protected:

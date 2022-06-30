@@ -19,20 +19,15 @@ class BASEUI_MODULE_API USinglePlayerMenuBaseHandler : public UUIHandlerBase, pu
 	GENERATED_BODY()
 public:
 	USinglePlayerMenuBaseHandler() {}
-
-public:
-	// const static TMap<FString, UClass*> Map_Purpose_To_DependenceHandlerClass;
-	// const static TMap<FString, FText> Map_Purpose_To_PurposeTooltip;
-	const static FFunctionHandlerDef HandlerDef;
-	
 	USinglePlayerMenuBaseHandler(UObject* InMapSelectableObj) { this->MapSelectableObj = InMapSelectableObj; }
 protected:
 	virtual ~USinglePlayerMenuBaseHandler() override {}
 
-public:
-	// virtual TSet<UClass*> GetDependenceHandlerInterfaceCollection() override;
+protected:
 	virtual void AssignInterfacePtr(UObject* MatchedObjectPtr, UClass* MatchedInterfaceClassPtr) override;
 	virtual void AssignDependentHandlerPtr() override;
+	
+public:
 	
 	virtual void StartNewGame_Implementation() override;
 	virtual void ContinueFromLast_Implementation() override;
@@ -55,5 +50,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MapSelection", meta=(Tooltip=""))
 	TScriptInterface<II_UI_Savable> SaveBaseHandler;
+
+public:
+	const static FFunctionHandlerDef HandlerDef;
 
 };

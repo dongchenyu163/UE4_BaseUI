@@ -16,8 +16,11 @@ UCLASS(BlueprintType, Blueprintable, meta=(ToolTip=""))
 class BASEUI_MODULE_API UUserManagementBaseHandler : public UUIHandlerBase, public II_UI_UserManagement
 {
 	GENERATED_BODY()
+	
 protected:
 	virtual void AssignDependentHandlerPtr() override;
+	
+protected:
 	virtual ~UUserManagementBaseHandler() override {}
 public:
 	virtual ECreateUserFailed CreateNewUser_CPP(FName InUserName, const FText& InUserDisplayName, UTexture2D* InUserIcon) override;

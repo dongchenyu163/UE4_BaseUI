@@ -22,8 +22,11 @@ public:
 	UResumeMenuBaseHandler(UWidget* InControlledResumeMenu) { ControlledResumeMenu = InControlledResumeMenu; }
 protected:
 	virtual ~UResumeMenuBaseHandler() override {}
-public:
+	
+protected:
 	virtual void AssignDependentHandlerPtr() override;
+	
+public:
 	virtual void ResumeGame_Implementation(UWidget* InControlledWidget) override;
 	virtual void ExitToMainMenu_Implementation() override;
 	virtual void ExitToDesktop_Implementation() override;
