@@ -96,7 +96,7 @@ void FFunctionHandlerPropertyCustomizer::MakeNewDependentHandlerSelectionWidget(
 	}
 
 	SelfNameString = CustomizationHandlerName.ToString() + "_" + FString::FromInt(CreationCount);
-	UE_LOG(LogTemp, Display, TEXT("Function:[%s] Customizator name: [%s] Customized!!"), ANSI_TO_TCHAR(__FUNCTION__), *SelfNameString);
+	// UE_LOG(LogTemp, Display, TEXT("Function:[%s] Customizator name: [%s] Customized!!"), ANSI_TO_TCHAR(__FUNCTION__), *SelfNameString);
 
 	const FName GroupID("Dependency_" + FString::FromInt(SelfID) + "_" + FString::FromInt(SelfID_Group));
 	// const FText GroupDisplayText = FText::FromString("Dependent Handler List " + FString::FromInt(SelfID) + "_" + FString::FromInt(SelfID_Group));
@@ -255,7 +255,7 @@ void FFunctionHandlerPropertyCustomizer::Handler_OnConfigChanged()
 		}
 	}
 	
-	UE_LOG(LogTemp, Display, TEXT("Function:[%s] Customizator name: [%s] Update!!"), ANSI_TO_TCHAR(__FUNCTION__), *SelfNameString);
+	// UE_LOG(LogTemp, Display, TEXT("Function:[%s] Customizator name: [%s] Update!!"), ANSI_TO_TCHAR(__FUNCTION__), *SelfNameString);
 
 	for (auto ComboBoxPtrIt = Map_HandlerNamePurpose_To_ComboBoxPtr.CreateConstIterator(); ComboBoxPtrIt; ++ComboBoxPtrIt)
 	{
