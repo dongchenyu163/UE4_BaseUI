@@ -36,7 +36,6 @@ void UFunctionHandlerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr,
 		{
 			NotMatchInterfaceList.Remove(MatchedInterface);
 		}
-
 		
 		const auto PurposeStringPtr = Map_Purpose_To_HandlerName.FindKey(Pair.Key);
 		if (!PurposeStringPtr)
@@ -46,4 +45,6 @@ void UFunctionHandlerBase::InitHandler(II_GI_MenuFramework* InGameInstancePtr,
 		}
 		Map_Purpose_To_HandlerInstance.Add(*PurposeStringPtr, Pair.Value);
 	}
+
+	AssignDependentHandlerPtr();
 }
