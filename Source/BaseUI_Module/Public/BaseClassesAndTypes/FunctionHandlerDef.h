@@ -39,8 +39,15 @@ public:
 		: HandlerClass(InHandlerClass),
 		  Map_Purpose_To_Dependent(InDependentDict)
 	{
-		Map_HandlerClass_To_Definition.Add(TPair<UClass*, TSharedPtr<FFunctionHandlerDef>>(InHandlerClass, this));
+		Map_HandlerClass_To_Definition.Add(TPair<UClass*, FFunctionHandlerDef*>(InHandlerClass, this));
 	}
+	// ~FFunctionHandlerDef()
+	// {
+	// 	if (HandlerClass)
+	// 	{
+	// 		Map_HandlerClass_To_Definition.Remove(HandlerClass);
+	// 	}
+	// }
 
 	static bool Get_Map_Purpose_To_Dependent(const UClass* InHandlerClass, HandlerDependentMap*& OutDependentMapPointer)
 	{
@@ -49,7 +56,7 @@ public:
 		{
 			return false;
 		}
-		OutDependentMapPointer = &DependentInfoPtr->Get()->Map_Purpose_To_Dependent;
+		OutDependentMapPointer = &(*DependentInfoPtr)->Map_Purpose_To_Dependent;
 		return true;
 	}
 	
@@ -60,7 +67,7 @@ public:
 		{
 			return;
 		}
-		DependentInfoPtr->Get()->Map_Purpose_To_Dependent.GetKeys(OutPurposeStringList);
+		(*DependentInfoPtr)->Map_Purpose_To_Dependent.GetKeys(OutPurposeStringList);
 	}
 
 	void GetPurposeList(const UClass* InDependentClass, TArray<FString> OutPurposeStringList) const
@@ -79,7 +86,7 @@ public:
 	TMap<FString, TSharedPtr<FFunctionHandlerDependent>> Map_Purpose_To_Dependent;
 
 
-	static TMap<UClass*, TSharedPtr<FFunctionHandlerDef>> Map_HandlerClass_To_Definition;
+	static TMap<UClass*, FFunctionHandlerDef*> Map_HandlerClass_To_Definition;
 	
 };
 

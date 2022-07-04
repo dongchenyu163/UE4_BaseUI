@@ -4,4 +4,4 @@
 #include "BaseClassesAndTypes/FunctionHandlerDef.h"
 
 
-TMap<UClass*, TSharedPtr<FFunctionHandlerDef>> FFunctionHandlerDef::Map_HandlerClass_To_Definition;
+TMap<UClass*, FFunctionHandlerDef*> FFunctionHandlerDef::Map_HandlerClass_To_Definition;
