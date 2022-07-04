@@ -54,7 +54,7 @@ UMainMenuGameInstanceConfig::UMainMenuGameInstanceConfig(): Super()
 			  TMap<FString, FName>(
 				  {
 					  TPair<FString, FName>("MapsInfoHandler", "MapsInfoHandler"),
-					  TPair<FString, FName>("MapSelectionHandler", "MapSelectionHandler"),
+					  TPair<FString, FName>("MapSelectionHandler", "MapSelector"),
 				  }
 			  )
 		 )
@@ -77,7 +77,7 @@ UMainMenuGameInstanceConfig::UMainMenuGameInstanceConfig(): Super()
 			  TPair<FString, FName>("UserManager", "UserManager"),
 			  TPair<FString, FName>("MapsInfoHandler", "MapsInfoHandler"),
 			  TPair<FString, FName>("WidgetHandler", "WidgetHandler"),
-			  TPair<FString, FName>("MapSelectHandler", "MapSelectHandler"),
+			  TPair<FString, FName>("MapSelectHandler", "MapSelector"),
 			})
 		));
 
